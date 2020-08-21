@@ -82,3 +82,9 @@ li:hover {
   border-radius: 4px;
   filter: drop-shadow(4px 4px 2px #504C4C);
 }
+
+
+/* Modal Styles */
+.image-container > img {
+    width: 500px;
+}
