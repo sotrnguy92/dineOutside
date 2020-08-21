@@ -1,0 +1,63 @@
+body {
+  font-family: "Zilla Slab", serif;
+  margin: 50px;
+}
+
+.container-fluid {
+    filter: drop-shadow(8px 8px 6px lightgray);
+}
+header {
+  background-color: #fd5858;
+ 
+}
+
+p {
+  line-height: 1;
+}
+
+h1 {
+  font-family: 'Ubuntu', sans-serif;
+  padding: 20px;
+  font-size: 50px;
+  text-align: right;
+}
+
+.searchButton {
+  cursor: pointer;
+}
+.searchButton:hover {
+  filter: drop-shadow(4px 4px 2px #504C4C);
+}
+
+li {
+  list-style: none;
+  margin: 6px;
+  background-color: lightgrey;
+  
+  padding: 10px;
+  border-radius: 2px;
+  filter:drop-shadow(4px 4px 2px);
+}
+
+.searchHistory {
+  background-color: lightpink;
+}
+
+.conditions {
+  background-color: lightyellow;
+}
+
+.weather, .todayAQI {
+  padding: 10px;
+  margin: 20px;
+  background-color: lightseagreen;
+  background-image: linear-gradient(#33C7FF, #E0F4FB, #BFEDFE);
+}
+
+.returnedRestaurants {
+  background-color: lightsteelblue;
+}
+
+.restaurantInfo {
+  background-color: lightgreen;
+}

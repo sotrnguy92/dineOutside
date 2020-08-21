@@ -1,37 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project 1</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dine Outside</title>
 
-     <!-- Bootstrap core CSS -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Material Design Bootstrap -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
-<!--  style sheet -->
-<link rel="stylesheet" href="styles/styles.css" />
+    <link rel="icon" href="images/dinnerplate.png" type="image/x-icon" />
 
+    <!-- Bootstrap core CSS -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Material Design Bootstrap -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css"
+      rel="stylesheet"
+    />
+    <!--  style sheet -->
+    <link rel="stylesheet" href="css/styles.css" />
 
-<!-- add google fonts below -->
-</head>
+    <!-- add google fonts below -->
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@700&family=Zilla+Slab&display=swap" rel="stylesheet">
+  </head>
 
+  <body>
+    <div class="container-fluid">
+      <header>
+        <h1>
+          <img width="90px" src="images/dinnerplate.png" /> Dine Outside
+          <img width="90px" src="images/cityscape.png" />
+        </h1>
+      </header>
 
-<body>
+      <div
+        class="input-group mt-4 mb-4 row d-flex justify-content-center inputFields"
+      >
+        <div class="col-12 col-sm-4 input-group-prepend">
+          <span class="input-group-text" id="basic-addon1"
+            ><img
+              width="20px"
+              alt="dinner plate with utensils emoji"
+              src="images/dinnerplate.png"
+          /></span>
 
+          <input
+            type="text"
+            class="form-control typeOfFood"
+            placeholder="type of food or restaurant"
+            aria-label="food or restaurant"
+            aria-describedby="basic-addon1"
+          />
+        </div>
 
-  Hello!
-     <!-- jQuery -->
-     <script
-     src="https://code.jquery.com/jquery-3.5.1.js"
-     integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
-     crossorigin="anonymous"
-   ></script>
+        <div class="col-12 col-sm-4 input-group-prepend">
+          <span class="input-group-text" id="basic-addon1"
+            ><img
+              width="20px"
+              alt="bowl with steam rising from it"
+              src="images/hotbowl.png"
+          /></span>
 
-   <!-- moments -->
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+          <input
+            type="text"
+            class="form-control location"
+            placeholder="city or ZIP code"
+            aria-label="your location here"
+            aria-describedby="basic-addon1"
+          />
+          <button type="button" class="btn btn-pink px-3"><i class="fas fa-search-plus"></i></button>
+        </div>
+        <!-- div below closes the inputFields row -->
+      </div>
 
-   <!-- js -->
-   <script src="js/scripts.js"></script>
-</body>
+      <div class="row mainContent">
+        <!-- this is where search history will be saved to localStorage -->
+        <aside class="col-sm-3 searchHistory">
+          <ul>
+
+          
+          <li class="userResults">here's one</li>
+          <li class="userResults">here's another one</li>
+          <li class="userResults">third one</li>
+        </ul>
+        </aside>
+
+        <div class="col-sm-6 returnedRestaurants">
+         
+          <div class="col-12 restaurantInfo">
+            Therefore the LORD God walking in the garden at the east of the garden of Eden, to till it and keep it. And the LORD God planted a garden in Eden, in the east; and there was no one to till the ground from which he was taken. But God said, 'You shall not eat of it you were taken; you are dust, and to dust you shall have them for food. The woman said, The woman whom you gave to be with me, she gave me fruit from the man he said, Because you have listened to the voice of your wife, and they become one flesh.
+          </div>
+          <!-- returned restaurants will go here -->
+        </div>
+
+        <div class="col-sm-3 p-4 conditions">
+          <!-- weather conditions will go here -->
+          <div class="col-sm-10 weather">
+            <p>City</p>
+            <p>conditions</p>
+            <p>icon</p>
+            <p>temperature</p>
+            <p>TODAY</p> 
+            <p>date</p>
+            
+            <!-- this is the weather column -->
+          </div>
+
+          <!-- Air Quality Index div -->
+          <div class="col-sm-10 todayAQI">
+            <p>Air Quality Index</p>
+
+            <p>Closest Station</p>
+
+          </div>
+        </div>
+
+        <!--this div closes mainContent row  -->
+      </div>
+
+      <!-- this div below closes the container  -->
+    </div>
+
+    <!-- jQuery -->
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.js"
+      integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- moments -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
+    <!-- js -->
+    <script src="js/scripts.js"></script>
+  </body>
 </html>
