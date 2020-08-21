@@ -17,9 +17,22 @@ $location = $(".location");
 
 // weather will be generated in this container, top right column on page
 $weather = $(".weather");
+// place values in here
+$cityName = $(".cityName");
+$description = $(".description");
+$icon = $(".icon");
+$temperature = $(".temperature");
+
+// rachael will add these in moments format
+$today = $(".today");
+$date = $(".date");
+
 
 // AQI will be generated in this container, botton right column on page
 $todayAQI = $(".todayAQI");
+// you can empty this out every time the user searches for a new city
+$localAQI = $(".localAQI");
+
 
 // parent container on center of page for returned restaurants
 $returnedRestaurants = $(".returnedRestaurants");
@@ -50,9 +63,6 @@ function airQualityIndex() {
     }).then(function (response) {
       let AQI = response.data.aqi;
 
-      let aqiHeader = $("<p>").addClass("aqiHeader").text("Air Quality Index");
-      $todayAQI.append(aqiHeader);
-
       let aqiLocal = $("<p>")
         .addClass("col-7 aqiLocal")
         .text("Air Quality Index: " + AQI);
@@ -73,38 +83,7 @@ function airQualityIndex() {
         let aqiStation = $("<p>").text(
           "Closest station: " + response.data.city.name
         );
-        $todayAQI.append(localTimeDisplay, aqiStation, aqiLocal);
-
-        let $aqiRow = $("<p>").addClass("row m-3 aqiKey");
-
-        let good = $("<div>")
-          .addClass("col-12 p-2")
-          .text("0-50 good")
-          .css("background-color", "green");
-        good.css("color", "white");
-        let moderate = $("<div>")
-          .addClass("col-12 p-2")
-          .text("51-100 moderate")
-          .css("background-color", "yellow");
-        let sensitive = $("<div>")
-          .addClass("col-12 p-2")
-          .text("101-150 unhealthy for sensitive groups")
-          .css("background-color", "orange");
-        let unhealthy = $("<div>")
-          .addClass("col-12 p-2")
-          .text("151-200 unhealthy")
-          .css("background-color", "red");
-        unhealthy.css("color", "white");
-        let veryUnhealthy = $("<div>")
-          .addClass("col-12 p-2")
-          .text("201-300 very unhealthy")
-          .css("background-color", "blueviolet");
-        veryUnhealthy.css("color", "white");
-        let hazardous = $("<div>")
-          .addClass("col-12 p-2")
-          .text("301+ hazardous")
-          .css("background-color", "maroon");
-        hazardous.css("color", "white");
+        $localAQI.append(localTimeDisplay, aqiStation, aqiLocal);
 
         if (AQI <= 50) {
           aqiLocal.css("background-color", "green");
