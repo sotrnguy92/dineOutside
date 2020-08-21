@@ -17,12 +17,13 @@
 
 <body>
   <div>
-    <!-- Button trigger modal -->
+    <!-- Button trigger modal: for prototyping use only -->
     <a type="button" class="btn btn-primary" data-toggle="modal" data-target="#business-venue-modal">
       Launch demo modal
     </a>
+    <!--  -->
 
-    <!-- Modal -->
+    <!-- Modal: Set at the bottom of the page just right before the scripts -->
     <div class="modal fade" id="business-venue-modal" tabindex="-1" role="dialog" aria-labelledby="business-venue-label"
       aria-hidden="true">
       <div class="modal-dialog modal-fluid modal-dialog-scrollable modal-dialog-centered" role="document">
@@ -37,9 +38,12 @@
           <div class="modal-body">
             <div class="container-fluid d-flex flex-row">
 
+              <!-- Image container -->
               <div class="image-container">
                 <img src="https://via.placeholder.com/500x500" alt="venue image">
               </div>
+
+              <!-- Details Container -->
               <div class="details-container d-flex flex-column justify-content-between ml-3">
                 <h4 class="venue-name">Restaurant Name: <span>(Name)</span></h4>
                 <h4 class="venue-name">Restaurant Blurb: <span>(Lorem ipsum dolor sit amet consectetur adipisicing elit.
@@ -54,9 +58,12 @@
                 <h4 class="venue-reviews">Restaurant Reviews: <span>(stars?)</span></h4>
                 <h4 class="venue-link">Restaurant Website: <a href="#" class="restaurant-link">(link)</a></h4>
               </div>
+
             </div>
           </div>
           <!-- ^^ Modal Body: End ^^ -->
+
+          <!-- Modal Footer: Contains navigation buttons, like back or save/favorite -->
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">
               Close
