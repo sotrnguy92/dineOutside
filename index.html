@@ -68,7 +68,7 @@
             aria-label="your location here"
             aria-describedby="basic-addon1"
           />
-          <button type="button" class="btn btn-pink px-3"><i class="fas fa-search-plus"></i></button>
+          <button type="button" class="btn btn-pink px-3 searchButton"><i class="fas fa-search-plus"></i></button>
         </div>
         <!-- div below closes the inputFields row -->
       </div>
@@ -76,13 +76,11 @@
       <div class="row mainContent">
         <!-- this is where search history will be saved to localStorage -->
         <aside class="col-sm-3 searchHistory">
-          <ul>
-
-          
-          <li class="userResults">here's one</li>
-          <li class="userResults">here's another one</li>
-          <li class="userResults">third one</li>
-        </ul>
+          <ul class="previousSearches"></ul>
+            <li class="userResults">here's one</li>
+            <li class="userResults">here's another one</li>
+            <li class="userResults">third one</li>
+          </ul>
         </aside>
 
         <div class="col-sm-6 returnedRestaurants">
