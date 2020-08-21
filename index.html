@@ -93,6 +93,12 @@
         <!-- div below closes the inputFields row -->
       </div>
 
+    <div class="row mainContent">
+      <!-- this is where search history will be saved to localStorage -->
+      <aside class="col-sm-3 searchHistory">
+        <ul>
+
+
       <div class="row mainContent">
         <!-- this is where search history will be saved to localStorage -->
         <aside class="col-sm-3 searchHistory">
@@ -112,9 +118,10 @@
               <p>type of food:</p>
               <p>outdoor seating?</p>
             </div>
-            <!-- returned restaurants will go here -->
-          </div>
         </div>
+        <!-- returned restaurants will go here -->
+      </div>
+
 
         <div class="col-sm-3 p-4 conditions">
           <!-- weather conditions will go here -->
@@ -134,47 +141,85 @@
             <div class="col-sm-11 todayAQI">
               <!-- AQI is dynamically generated here -->
             </div>
-          </div>
         </div>
-
-        <!--this div closes mainContent row  -->
       </div>
 
-      <!-- this div below closes the container  -->
+      <!--this div closes mainContent row  -->
     </div>
 
-    <!-- jQuery -->
-    <script
-      src="https://code.jquery.com/jquery-3.5.1.js"
-      integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
-      crossorigin="anonymous"
-    ></script>
+    <!-- this div below closes the container  -->
+  </div>
 
-    <!-- JQuery -->
-    <script
-      type="text/javascript"
-      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
-    ></script>
-    <!-- Bootstrap tooltips -->
-    <script
-      type="text/javascript"
-      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"
-    ></script>
+  <!-- Modal button: Disabled for testing -->
+  <!-- <a type="button" class="btn btn-primary" data-toggle="modal" data-target="#business-venue-modal">
+    Launch demo modal
+  </a> -->
+  <!-- Modal: Set at the bottom of the page just right before the scripts tag -->
+  <div class="modal fade" id="business-venue-modal" tabindex="-1" role="dialog" aria-labelledby="business-venue-label"
+    aria-hidden="true">
+    <div class="modal-dialog modal-fluid modal-dialog-scrollable modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="business-venue-name">(Venue Name)</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <!-- vv Modal Body: Start vv -->
+        <div class="modal-body">
+          <div class="container-fluid d-flex flex-row">
+
+            <!-- Image container -->
+            <div class="image-container">
+              <img
+                src="https://b.zmtcdn.com/data/res_imagery/17769436_RESTAURANT_22714b19a3df35cfb3963b297327b522_c.jpg"
+                alt="venue image">
+            </div>
+
+            <!-- Details Container -->
+            <div class="details-container d-flex flex-column justify-content-between ml-3">
+              <h4 class="venue-name">Restaurant Name: <span>(Name)</span></h4>
+              <h4 class="venue-name">Restaurant Blurb: <span> (Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Non illum, eum saepe, enim est excepturi laboriosam ipsam dicta delectus, voluptatem vel blanditiis
+                  modi dignissimos asperiores distinctio optio inventore exercitationem corrupti praesentium qui
+                  architecto unde natus. Alias dolor velit in accusamus laudantium, temporibus unde, odit animi
+                  placeat nemo recusandae vel officiis.)</span></h4>
+              <h4 class="venue-name">Restaurant Address: <span>(Address)</span></h4>
+              <h4 class="venue-contact-info">Restaurant Contact Info: <span>(phone number)</span></h4>
+              <h4 class="venue-cuisine">Restaurant Cuisine: <span>(cuisine)</span></h4>
+              <h4 class="venue-delivery-takeout">Restaurant Deliver/Takeout: <span>(ok/not ok)</span></h4>
+              <h4 class="venue-reviews">Restaurant Reviews: <span>(stars?)</span></h4>
+              <h4 class="venue-link">Restaurant Website: <a href="#" class="restaurant-link">(link)</a></h4>
+            </div>
+          </div>
+        </div>
+        <!-- ^^ Modal Body: End ^^ -->
+
+        <!-- Modal Footer: Contains navigation buttons, like back or save/favorite -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+            Close
+          </button>
+          <!-- <button type="button" class="btn btn-primary">
+              Save changes
+            </button> -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+    crossorigin="anonymous"></script>
     <!-- Bootstrap core JavaScript -->
-    <script
-      type="text/javascript"
-      src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"
-    ></script>
-    <!-- MDB core JavaScript -->
-    <script
-      type="text/javascript"
-      src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"
-    ></script>
+  <script type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  <!-- MDB core JavaScript -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
+  <!-- moments -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+  <!-- js -->
+  <script src="js/scripts.js"></script>
+</body>
 
-    <!-- moments -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-
-    <!-- js -->
-    <script src="js/scripts.js"></script>
-  </body>
 </html>
