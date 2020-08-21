@@ -9,17 +9,17 @@ $typeOfFood = $(".typeOfFood");
 $location = $(".location");
 
 
-
-// SideNav Button Initialization
-$(".button-collapse").sideNav2();
-// SideNav Scrollbar Initialization
-var sideNavScrollbar = document.querySelector('.custom-scrollbar');
-var ps = new PerfectScrollbar(sideNavScrollbar);
-
+// section that will show AQI
+$todayAQI = $(".todayAQI");
 
 
 // AQI widget; to get local AQI, this needs coordinates
+airQualityIndex();
 function airQualityIndex() {
+  let latitude = 37.7749;
+  let longitude = -122.4194;
+  // citySearch is the input value or from localStorage; declare variable for this
+  citySearch = "San Francisco";
     let aqiURL =
       "https://api.waqi.info/feed/geo:" +
       latitude +

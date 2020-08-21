@@ -67,19 +67,15 @@
             placeholder="city or ZIP code"
             aria-label="your location here"
             aria-describedby="basic-addon1"
-          /><img
-            class="searchButton"
-            height="38px"
-            alt="magnifying glass emoji"
-            src="images/magnifier.png"
           />
+          <button type="button" class="btn btn-pink px-3"><i class="fas fa-search-plus"></i></button>
         </div>
         <!-- div below closes the inputFields row -->
       </div>
 
       <div class="row mainContent">
         <!-- this is where search history will be saved to localStorage -->
-        <aside class="col-3 searchHistory">
+        <aside class="col-sm-3 searchHistory">
           <ul>
 
           
@@ -89,7 +85,7 @@
         </ul>
         </aside>
 
-        <div class="col-6 returnedRestaurants">
+        <div class="col-sm-6 returnedRestaurants">
          
           <div class="col-12 restaurantInfo">
             Therefore the LORD God walking in the garden at the east of the garden of Eden, to till it and keep it. And the LORD God planted a garden in Eden, in the east; and there was no one to till the ground from which he was taken. But God said, 'You shall not eat of it you were taken; you are dust, and to dust you shall have them for food. The woman said, The woman whom you gave to be with me, she gave me fruit from the man he said, Because you have listened to the voice of your wife, and they become one flesh.
@@ -97,7 +93,7 @@
           <!-- returned restaurants will go here -->
         </div>
 
-        <div class="col-3 p-4 conditions">
+        <div class="col-sm-3 p-4 conditions">
           <!-- weather conditions will go here -->
           <div class="col-sm-10 weather">
             <p>City</p>
@@ -109,7 +105,9 @@
             
             <!-- this is the weather column -->
           </div>
-          <div class="col-sm-10 airQuality">
+
+          <!-- Air Quality Index div -->
+          <div class="col-sm-10 todayAQI">
             <p>Air Quality Index</p>
 
             <p>Closest Station</p>

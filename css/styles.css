@@ -47,7 +47,7 @@ li {
   background-color: lightyellow;
 }
 
-.weather, .airQuality {
+.weather, .todayAQI {
   padding: 10px;
   margin: 20px;
   background-color: lightseagreen;
