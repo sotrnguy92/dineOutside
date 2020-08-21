@@ -3,63 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project 1</title>
+    <title>Dine Outside</title>
+
+    <link rel="icon" href="images/dinnerplate.png" type="image/x-icon" />
 
      <!-- Bootstrap core CSS -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
   <!-- Material Design Bootstrap -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
 <!--  style sheet -->
-<link rel="stylesheet" href="styles/styles.css" />
+<link rel="stylesheet" href="css/styles.css" />
 
 
 <!-- add google fonts below -->
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&family=Zilla+Slab&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bree+Serif&family=Zilla+Slab&display=swap" rel="stylesheet">
+
 </head>
 
 
 <body>
-
-
-  <div class="input-group mb-3">
-    <div class="input-group-prepend">
-      <span class="input-group-text" id="basic-addon1">@</span>
+  <div class="container-fluid">
+    <header><h1><img width="50px" src="images/dinnerplate.png"/> Dine Outside</h1></header>
+    <div class="input-group mb-3 row inputFields">
+  
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="basic-addon1"><img width="20px" alt="dinner plate with utensils emoji" src="images/dinnerplate.png"/></span>
+      </div>
+      <input type="text" class="form-control typeOfFood" placeholder="type of food or restaurant" aria-label="food or restaurant" aria-describedby="basic-addon1">
+  
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="basic-addon1"><img width="20px" alt="bowl with steam rising from it" src="images/hotbowl.png"/></span>
+      </div>
+      <input type="text" class="form-control location" placeholder="city or ZIP code" aria-label="your location here" aria-describedby="basic-addon1"><img class="searchButton"height="38px" alt="magnifying glass emoji" src="images/magnifier.png"/>
     </div>
-    <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+    <!-- this div below closes the container  -->
   </div>
   
-  <div class="input-group mb-3">
-    <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username"
-      aria-describedby="basic-addon2">
-    <div class="input-group-append">
-      <span class="input-group-text" id="basic-addon2">@example.com</span>
-    </div>
-  </div>
-  
-  <label for="basic-url">Your vanity URL</label>
-  <div class="input-group mb-3">
-    <div class="input-group-prepend">
-      <span class="input-group-text" id="basic-addon3">https://example.com/users/</span>
-    </div>
-    <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
-  </div>
-  
-  <div class="input-group mb-3">
-    <div class="input-group-prepend">
-      <span class="input-group-text">$</span>
-    </div>
-    <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-    <div class="input-group-append">
-      <span class="input-group-text">.00</span>
-    </div>
-  </div>
-  
-  <div class="input-group">
-    <div class="input-group-prepend">
-      <span class="input-group-text">With textarea</span>
-    </div>
-    <textarea class="form-control" aria-label="With textarea"></textarea>
-  </div>
+ 
      <!-- jQuery -->
      <script
      src="https://code.jquery.com/jquery-3.5.1.js"

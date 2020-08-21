@@ -1,3 +1,13 @@
+
+// image of magnifying glass that you can use as search button
+$searchButton = $(".searchButton");
+
+// input field asking for type of food or restaurant
+$typeOfFood = $(".$typeOfFood");
+
+// input field asking for city or zip code
+$location = $(".location");
+
 function airQualityIndex() {
     let aqiURL =
       "https://api.waqi.info/feed/geo:" +
