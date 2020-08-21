@@ -2,15 +2,32 @@ $(document).ready(function() {
 // image of magnifying glass that you can use as search button
 $searchButton = $(".searchButton");
 
+// container that will hold list of search history
+$searchHistory = $(".searchHistory");
+$userList = $('.userList'); // this is a UL element. append $("<li>") search results here
+// dynamically generate search history list here in list items
+// append all li this container: $searchHistory.append($userList);
+
+
 // input field asking for type of food or restaurant
 $typeOfFood = $(".typeOfFood");
 
 // input field asking for city or zip code
 $location = $(".location");
 
+// weather will be generated in this container, top right column on page
+$weather = $(".weather");
 
-// section that will show AQI
+// AQI will be generated in this container, botton right column on page
 $todayAQI = $(".todayAQI");
+
+// parent container on center of page for returned restaurants
+$returnedRestaurants = $(".returnedRestaurants");
+
+// dynamically generate search results in this container
+$restaurantInfo = $("<div>").addClass("col-11 restaurantInfo");
+// append in this container: $returnedRestaurants.append($restaurantInfo);
+
 
 
 // AQI widget; to get local AQI, this needs coordinates
@@ -37,7 +54,7 @@ function airQualityIndex() {
       $todayAQI.append(aqiHeader);
 
       let aqiLocal = $("<p>")
-        .addClass("col-sm-7 aqiLocal")
+        .addClass("col-7 aqiLocal")
         .text("Air Quality Index: " + AQI);
 
       if (AQI == undefined) {
