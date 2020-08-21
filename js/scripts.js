@@ -1,13 +1,24 @@
-
+$(document).ready(function() {
 // image of magnifying glass that you can use as search button
 $searchButton = $(".searchButton");
 
 // input field asking for type of food or restaurant
-$typeOfFood = $(".$typeOfFood");
+$typeOfFood = $(".typeOfFood");
 
 // input field asking for city or zip code
 $location = $(".location");
 
+
+
+// SideNav Button Initialization
+$(".button-collapse").sideNav2();
+// SideNav Scrollbar Initialization
+var sideNavScrollbar = document.querySelector('.custom-scrollbar');
+var ps = new PerfectScrollbar(sideNavScrollbar);
+
+
+
+// AQI widget; to get local AQI, this needs coordinates
 function airQualityIndex() {
     let aqiURL =
       "https://api.waqi.info/feed/geo:" +
@@ -107,3 +118,5 @@ function airQualityIndex() {
       }
     });
   }
+
+});
