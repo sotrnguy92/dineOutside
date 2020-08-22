@@ -16,7 +16,7 @@ p {
 h1 {
   font-family: 'Ubuntu', sans-serif;
   color: black;
-  padding: 20px;
+  font-size: 44px;
 }
 
 h2 {
@@ -59,7 +59,7 @@ li {
 }
 
 li:hover {
-  background-color: lightseagreen;
+  background-color: #B7D3F7;
 }
 
 .searchHistory {
