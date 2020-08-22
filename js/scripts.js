@@ -62,7 +62,7 @@ $(document).ready(function () {
       const city_id = response.location_suggestions[0].entity_id;
       console.log(city_id);
       //I think we might want to display the city and state as well so that the user can confirm that we are in the right location
-      let city_name = response.location_suggestions[0].title;
+      const city_name = response.location_suggestions[0].title;
       console.log(city_name);
       callAjaxRestLookup(city_id, foodSearch);
     });
@@ -83,7 +83,6 @@ $(document).ready(function () {
       data: data,
     }).then(function (response) {
       console.log(response);
-      console.log(response.restaurants[0].restaurant);
       for (let i = 0; i < response.restaurants.length; i++) {
         const restName = response.restaurants[i].restaurant.name;
         const restFeaturedImage = response.restaurants[i].restaurant.featured_image;
@@ -91,14 +90,24 @@ $(document).ready(function () {
         const restLat = response.restaurants[i].restaurant.location.latitude;
         const restLong = response.restaurants[i].restaurant.location.longitude;
         const restAddress = response.restaurants[i].restaurant.location.address;
-        console.log(
-          restName,
-          restFeaturedImage,
-          restOpenTime,
-          restLat,
-          restLong,
-          restAddress
-        );
+        const outdoorSeating = function(){
+          if (response.restaurants[i].restaurant.highlights.includes("Outdoor Seating") === true){
+          return "Outdoor Seating";
+      }else{
+        return "Indoor Seating Only";
+      }
+    }
+
+        const $restResult = `
+        <div class="row d-flex justify-content-center">
+        <div class="col-11 restaurantInfo" data-toggle="modal" data-target="#business-venue-modal" data-index="0">
+          <p class="resName">restaurant name: ${restName}</p>
+          <p class="foodType">type of food: ${foodSearch}</p>
+          <p class="outdoor">outdoor seating? ${outdoorSeating()}</p>
+        </div>
+      </div>`
+       $('.returnedRestaurants').append($restResult);
+
         // append necessary info in HTML format. Consider how many rest results we want to show
         // set values = necessary HTML elements
       }
