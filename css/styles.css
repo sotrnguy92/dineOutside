@@ -13,12 +13,6 @@ p {
     line-height: 1;
 }
 
-h1 {
-  font-family: 'Russo One', sans-serif;
-  color: black;
-  font-size: 44px;
-}
-
 h2 {
     font-size: 24px;
 }
@@ -28,6 +22,43 @@ header {
   background-color: #ea5455;
   padding-top: 50px;
 
+}
+
+h1 {
+    font-family: 'Russo One', sans-serif;
+    color: black;
+    font-size: 50px;
+  }
+
+.header-pics {
+    height: 50px;
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 36px;
+    }
+.header-pics {
+    height: 36px;
+    }    
+}
+
+@media (max-width: 640px) {
+    h1 {
+        font-size: 30px;
+    }
+    .header-pics {
+        height: 30px;
+    }
+}
+
+@media (max-width: 400px) {
+    h1 {
+        font-size: 24px;
+    }
+    .header-pics {
+        height: 24px;
+    }
 }
 
 .form-control::placeholder {
@@ -82,6 +113,9 @@ li:hover {
     filter: drop-shadow(4px 4px 2px #504C4C);
 }
 
+.restaurantInfo:hover {
+    background-color: #CCDAEB;
+}
 
 /* right column */
 .conditions {
