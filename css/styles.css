@@ -1,8 +1,8 @@
 /* general styles */
 body {
-  font-family: "Zilla Slab", serif;
-  margin: 20px;
-  color: #2d4059;
+    font-family: "Zilla Slab", serif;
+    margin: 20px;
+    color: #2d4059;
 }
 
 .container-fluid {
@@ -10,7 +10,7 @@ body {
 }
 
 p {
-  line-height: 1;
+    line-height: 1;
 }
 
 h1 {
@@ -20,13 +20,14 @@ h1 {
 }
 
 h2 {
-  font-size: 24px;
+    font-size: 24px;
 }
 
 /* header items */
 header {
   background-color: #ea5455;
   padding-top: 50px;
+
 }
 
 .form-control::placeholder {
@@ -34,12 +35,12 @@ header {
 }
 
 .searchButton {
-  cursor: pointer;
-  box-shadow: none;
+    cursor: pointer;
+    box-shadow: none;
 }
 
 .searchButton:hover {
-  filter: drop-shadow(4px 4px 2px #504C4C);
+    filter: drop-shadow(4px 4px 2px #504C4C);
 }
 
 #search-button-addon {
@@ -48,14 +49,14 @@ header {
 
 /* left column */
 li {
-  list-style: none;
-  margin: 6px;
-  background-color: #decdc3;
-  cursor: pointer;
-  
-  padding: 10px;
-  border-radius: 2px;
-  filter:drop-shadow(4px 4px 2px);
+    list-style: none;
+    margin: 6px;
+    background-color: #decdc3;
+    cursor: pointer;
+
+    padding: 10px;
+    border-radius: 2px;
+    filter: drop-shadow(4px 4px 2px);
 }
 
 li:hover {
@@ -63,75 +64,83 @@ li:hover {
 }
 
 .searchHistory {
-  background-color: #e5e5e5;
+    background-color: #e5e5e5;
 }
 
 /* center column */
 .returnedRestaurants {
-  background-color: #decdc3;
-  padding: 10px;
+    background-color: #decdc3;
+    padding: 10px;
 }
 
 .restaurantInfo {
-  cursor: pointer;
-  background-color: #e5e5e5;
-  margin: 10px;
-  padding: 10px;
-  border-radius: 4px;
-  filter: drop-shadow(4px 4px 2px #504C4C);
+    cursor: pointer;
+    background-color: #e5e5e5;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 4px;
+    filter: drop-shadow(4px 4px 2px #504C4C);
 }
 
 
 /* right column */
 .conditions {
-  background-color: #e5e5e5;
+    background-color: #e5e5e5;
 }
 
-.weather, .todayAQI {
-  padding: 10px;
-  margin: 10px;
-  background-image: linear-gradient(#33C7FF, #E0F4FB, #BFEDFE);
-  filter: drop-shadow(4px 4px 2px #504C4C);
-  border-radius: 20px;
+.weather,
+.todayAQI {
+    padding: 10px;
+    margin: 10px;
+    background-image: linear-gradient(#33C7FF, #E0F4FB, #BFEDFE);
+    filter: drop-shadow(4px 4px 2px #504C4C);
+    border-radius: 20px;
 }
 
 .aqiLocal {
-  padding: 10px;
-  border: 1px solid black;
+    padding: 10px;
+    border: 1px solid black;
 }
 
 .good {
-  background-color: green;
-  color: white;
+    background-color: green;
+    color: white;
 }
 
 .moderate {
-  background-color: yellow;
-  color: black;
+    background-color: yellow;
+    color: black;
 }
 
 .sensitive {
-  background-color:orange;
-  color: black;
-  
+    background-color: orange;
+    color: black;
+
 }
 
 .unhealthy {
-  background-color: red;
-  color: white;
+    background-color: red;
+    color: white;
 }
 
 .veryUnhealthy {
-  background-color: blueviolet;
-  color: white;
+    background-color: blueviolet;
+    color: white;
 }
 
 .hazardous {
-  background-color: maroon;
-  color: white;
+    background-color: maroon;
+    color: white;
 }
 
 /* Modal Styles */
-.image-container > img {
+.venue-image-display {
     width: 500px;
+}
+
+@media (max-width: 740px) {
+    .venue-image-display {
+        width: 100%;
+        margin-bottom: 15px;
+    }
 }
