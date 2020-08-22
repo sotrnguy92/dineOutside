@@ -14,7 +14,7 @@ p {
 }
 
 h1 {
-  font-family: 'Ubuntu', sans-serif;
+  font-family: 'Russo One', sans-serif;
   color: black;
   font-size: 44px;
 }
@@ -92,7 +92,9 @@ li:hover {
 .todayAQI {
     padding: 10px;
     margin: 10px;
-    background-image: linear-gradient(#33C7FF, #E0F4FB, #BFEDFE);
+    background-color: #B7D3F7;
+    background-image: linear-gradient(#4D6D9C, #578BD8, #6D9FEC);
+    color: white;
     filter: drop-shadow(4px 4px 2px #504C4C);
     border-radius: 20px;
 }

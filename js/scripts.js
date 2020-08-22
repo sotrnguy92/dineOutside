@@ -22,9 +22,13 @@ $(document).ready(function () {
   const $icon = $(".icon");
   const $temperature = $(".temperature");
 
-  // rachael will add these in moments format
+  // display current local time
   const $today = $(".today");
+  let today = moment().format("dddd");
+  $today.text("TODAY: " + today);
   const $date = $(".date");
+  let date = moment().format("MMMM DD, YYYY");
+  $date.text(date);
 
   // AQI will be generated in this container, botton right column on page
   const $todayAQI = $(".todayAQI");
@@ -41,7 +45,8 @@ $(document).ready(function () {
   const $returnedRestaurants = $(".returnedRestaurants");
 
   // dynamically generate search results in this container
-  const   $restaurantInfo = $("<div>").addClass("col-11 restaurantInfo");
+  const 
+  $restaurantInfo = $("<div>").addClass("col-11 restaurantInfo");
   // append in this container: $returnedRestaurants.append($restaurantInfo);
 
   let pastSearchArr = [];
