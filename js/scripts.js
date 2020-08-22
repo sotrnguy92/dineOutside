@@ -2,15 +2,35 @@ $(document).ready(function () {
   // image of magnifying glass that you can use as search button
   $searchButton = $(".searchButton");
 
-  // input field asking for type of food or restaurant
-  $typeOfFood = $(".typeOfFood");
+// container that will hold list of search history
+$searchHistory = $(".searchHistory");
+$userList = $('.userList'); // this is a UL element. append $("<li>") search results here
+// dynamically generate search history list here in list items
+// append all li this container: $searchHistory.append($userList);
+
+
+// input field asking for type of food or restaurant
+$typeOfFood = $(".typeOfFood");
 
   // input field asking for city or zip code
   $location = $(".location");
 
-  // section that will show AQI
-  $todayAQI = $(".todayAQI");
+// weather will be generated in this container, top right column on page
+$weather = $(".weather");
+// place values in here
+$cityName = $(".cityName");
+$description = $(".description");
+$icon = $(".icon");
+$temperature = $(".temperature");
 
+// rachael will add these in moments format
+$today = $(".today");
+$date = $(".date");
+
+
+// AQI will be generated in this container, botton right column on page
+$todayAQI = $(".todayAQI");
+  
   const urlCitySearch = 'https://developers.zomato.com/api/v2.1/locations'
   const urlCityLookup = 'https://developers.zomato.com/api/v2.1/search'
   let foodSearch = 'ramen' // to comment out
@@ -19,6 +39,17 @@ $(document).ready(function () {
   //                         'query': citySearch
   //                         }
   let cityCount = 0;
+  
+// you can empty this out every time the user searches for a new city
+$localAQI = $(".localAQI");
+
+
+// parent container on center of page for returned restaurants
+$returnedRestaurants = $(".returnedRestaurants");
+
+// dynamically generate search results in this container
+$restaurantInfo = $("<div>").addClass("col-11 restaurantInfo");
+// append in this container: $returnedRestaurants.append($restaurantInfo);
 
 
   function callCityIDSearch(city,foodSearch) {
@@ -123,9 +154,8 @@ $(document).ready(function () {
       // lets hard code a lot of this. most of it doesn't change... 
       let aqiHeader = $("<p>").addClass("aqiHeader").text("Air Quality Index");
       $todayAQI.append(aqiHeader);
-
       let aqiLocal = $("<p>")
-        .addClass("col-sm-7 aqiLocal")
+        .addClass("col-7 aqiLocal")
         .text("Air Quality Index: " + AQI);
 
       if (AQI == undefined) {
@@ -144,38 +174,7 @@ $(document).ready(function () {
         let aqiStation = $("<p>").text(
           "Closest station: " + response.data.city.name
         );
-        $todayAQI.append(localTimeDisplay, aqiStation, aqiLocal);
-
-        let $aqiRow = $("<p>").addClass("row m-3 aqiKey");
-
-        let good = $("<div>")
-          .addClass("col-12 p-2")
-          .text("0-50 good")
-          .css("background-color", "green");
-        good.css("color", "white");
-        let moderate = $("<div>")
-          .addClass("col-12 p-2")
-          .text("51-100 moderate")
-          .css("background-color", "yellow");
-        let sensitive = $("<div>")
-          .addClass("col-12 p-2")
-          .text("101-150 unhealthy for sensitive groups")
-          .css("background-color", "orange");
-        let unhealthy = $("<div>")
-          .addClass("col-12 p-2")
-          .text("151-200 unhealthy")
-          .css("background-color", "red");
-        unhealthy.css("color", "white");
-        let veryUnhealthy = $("<div>")
-          .addClass("col-12 p-2")
-          .text("201-300 very unhealthy")
-          .css("background-color", "blueviolet");
-        veryUnhealthy.css("color", "white");
-        let hazardous = $("<div>")
-          .addClass("col-12 p-2")
-          .text("301+ hazardous")
-          .css("background-color", "maroon");
-        hazardous.css("color", "white");
+        $localAQI.append(localTimeDisplay, aqiStation, aqiLocal);
 
         if (AQI <= 50) {
           aqiLocal.css("background-color", "green");

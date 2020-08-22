@@ -7,6 +7,16 @@
 
     <link rel="icon" href="images/dinnerplate.png" type="image/x-icon" />
 
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+    />
+    <!-- Google Fonts -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+    />
     <!-- Bootstrap core CSS -->
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css"
@@ -17,48 +27,57 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css"
       rel="stylesheet"
     />
+
     <!--  style sheet -->
     <link rel="stylesheet" href="css/styles.css" />
 
     <!-- add google fonts below -->
-    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@700&family=Zilla+Slab&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@700&family=Zilla+Slab&display=swap"
+      rel="stylesheet"
+    />
   </head>
 
   <body>
     <div class="container-fluid">
-      <header>
-        <h1>
-          <img width="90px" src="images/dinnerplate.png" /> Dine Outside
-          <img width="90px" src="images/cityscape.png" />
-        </h1>
-      </header>
 
+      <header class="row mb-sm-3">
+
+        <div class="col-sm-6">
+          <h1>
+            <img width="80px" src="images/dinnerplate.png" /> Dine Outside
+            <img width="80px" src="images/cityscape.png" />
+          </h1>
+        </div>
+
+      
+      <!-- start MD Bootstrap input fields here -->
       <div
-        class="input-group mt-4 mb-4 row d-flex justify-content-center inputFields"
+        class="input-group col-sm-6 inputFields"
       >
-        <div class="col-12 col-sm-4 input-group-prepend">
+        <div class="input-group-prepend">
           <span class="input-group-text" id="basic-addon1"
             ><img
-              width="20px"
-              alt="dinner plate with utensils emoji"
-              src="images/dinnerplate.png"
+              height="20px"
+              alt="emoji of bowl with steam rising from git"
+              src="images/hotbowl.png"
           /></span>
 
           <input
             type="text"
             class="form-control typeOfFood"
-            placeholder="type of food or restaurant"
+            placeholder="food or restaurant"
             aria-label="food or restaurant"
             aria-describedby="basic-addon1"
           />
         </div>
 
-        <div class="col-12 col-sm-4 input-group-prepend">
-          <span class="input-group-text" id="basic-addon1"
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon2"
             ><img
-              width="20px"
-              alt="bowl with steam rising from it"
-              src="images/hotbowl.png"
+              height="20px"
+              alt="emoji pin"
+              src="images/pin.png"
           /></span>
 
           <input
@@ -66,50 +85,80 @@
             class="form-control location"
             placeholder="city or ZIP code"
             aria-label="your location here"
-            aria-describedby="basic-addon1"
+            aria-describedby="basic-addon2"
+          />
+          <img
+            class="searchButton"
+            alt="magnifying glass emoji"
+            height="38px"
+            src="images/magnifier.png"
           />
           <button type="button" class="btn btn-pink px-3 searchButton"><i class="fas fa-search-plus"></i></button>
         </div>
-        <!-- div below closes the inputFields row -->
+        <!-- div below closes the inputFields div -->
       </div>
+    </header>
 
-      <div class="row mainContent">
+      <div class="row d-flex justify-content-center mainContent">
         <!-- this is where search history will be saved to localStorage -->
-        <aside class="col-sm-3 searchHistory">
-          <ul class="previousSearches"></ul>
-            <li class="userResults">here's one</li>
-            <li class="userResults">here's another one</li>
-            <li class="userResults">third one</li>
-          </ul>
+
+        <aside class="col-sm-3 mr-sm-3 searchHistory">
+          <div class="row d-flex justify-content-center">
+            <ul class="col-12 userList">
+              <li class="userResults">here's one</li>
+              <li class="userResults">here's another one</li>
+              <li class="userResults">third one</li>
+            </ul>
+          </div>
         </aside>
 
-        <div class="col-sm-6 returnedRestaurants">
-         
-          <div class="col-12 restaurantInfo">
-            Therefore the LORD God walking in the garden at the east of the garden of Eden, to till it and keep it. And the LORD God planted a garden in Eden, in the east; and there was no one to till the ground from which he was taken. But God said, 'You shall not eat of it you were taken; you are dust, and to dust you shall have them for food. The woman said, The woman whom you gave to be with me, she gave me fruit from the man he said, Because you have listened to the voice of your wife, and they become one flesh.
+        <section class="col-sm-5 mr-sm-3 returnedRestaurants">
+          <div class="row d-flex justify-content-center">
+            <div class="col-11 restaurantInfo">
+              <p class="resName">restaurant name:</p>
+              <p class="foodType">type of food:</p>
+              <p class="outdoor">outdoor seating?</p>
+            </div>
           </div>
           <!-- returned restaurants will go here -->
-        </div>
+        </section>
 
         <div class="col-sm-3 p-4 conditions">
           <!-- weather conditions will go here -->
-          <div class="col-sm-10 weather">
-            <p>City</p>
-            <p>conditions</p>
-            <p>icon</p>
-            <p>temperature</p>
-            <p>TODAY</p> 
-            <p>date</p>
-            
-            <!-- this is the weather column -->
-          </div>
+          <div class="row d-flex justify-content-center">
+            <div class="col-sm-11 weather">
+              <p class="city">City</p>
+              <p class="description">description</p>
+              <p class="icon">icon</p>
+              <p class="temperature">temperature</p>
+              <p>TODAY</p>
+              <p>date</p>
 
-          <!-- Air Quality Index div -->
-          <div class="col-sm-10 todayAQI">
-            <p>Air Quality Index</p>
+              <!-- this is the weather column -->
+            </div>
 
-            <p>Closest Station</p>
+            <!-- Air Quality Index div -->
+            <div class="col-sm-11 todayAQI">
+              <h2>Air Quality Index</h2>
+              <div class="row-fluid">
+                <div class="col-12 localAQI"></div>
+              </div>
 
+              <div class="row-fluid aqiKey">
+                <div class="col-12 p-2 good">0-50 good</div>
+                <div class="col-12 p-2 moderate">51-100 moderate</div>
+                <div class="col-12 p-2 sensitive">
+                  101-150 unhealthy for sensitive groups
+                </div>
+                <div class="col-12 p-2 unhealthy">151-200 unhealthy</div>
+                <div class="col-12 p-2 veryUnhealthy">
+                  200-300 very unhealthy
+                </div>
+                <div class="col-12 p-2 hazardous">301+ hazardous</div>
+              </div>
+
+              <!-- AQI is dynamically generated here -->
+            </div>
           </div>
         </div>
 
@@ -119,16 +168,127 @@
       <!-- this div below closes the container  -->
     </div>
 
+    <!-- Modal button: Disabled for testing -->
+    <a
+      type="button"
+      class="btn btn-primary"
+      data-toggle="modal"
+      data-target="#business-venue-modal"
+    >
+      Launch demo modal
+    </a>
+    <!-- Modal: Set at the bottom of the page just right before the scripts tag -->
+    <div
+      class="modal fade"
+      id="business-venue-modal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="business-venue-label"
+      aria-hidden="true"
+    >
+      <div
+        class="modal-dialog modal-fluid modal-dialog-scrollable modal-dialog-centered"
+        role="document"
+      >
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="business-venue-name">(Venue Name)</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <!-- vv Modal Body: Start vv -->
+          <div class="modal-body">
+            <div class="container-fluid d-flex flex-row">
+              <!-- Image container -->
+              <div class="image-container">
+                <img
+                  src="https://b.zmtcdn.com/data/res_imagery/17769436_RESTAURANT_22714b19a3df35cfb3963b297327b522_c.jpg"
+                  alt="venue image"
+                />
+              </div>
+
+              <!-- Details Container -->
+              <div
+                class="details-container d-flex flex-column justify-content-between ml-3"
+              >
+                <h4 class="venue-name">Restaurant Name: <span>(Name)</span></h4>
+                <h4 class="venue-name">
+                  Restaurant Blurb:
+                  <span>
+                    (Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Non illum, eum saepe, enim est excepturi laboriosam ipsam
+                    dicta delectus, voluptatem vel blanditiis modi dignissimos
+                    asperiores distinctio optio inventore exercitationem
+                    corrupti praesentium qui architecto unde natus. Alias dolor
+                    velit in accusamus laudantium, temporibus unde, odit animi
+                    placeat nemo recusandae vel officiis.)</span
+                  >
+                </h4>
+                <h4 class="venue-name">
+                  Restaurant Address: <span>(Address)</span>
+                </h4>
+                <h4 class="venue-contact-info">
+                  Restaurant Contact Info: <span>(phone number)</span>
+                </h4>
+                <h4 class="venue-cuisine">
+                  Restaurant Cuisine: <span>(cuisine)</span>
+                </h4>
+                <h4 class="venue-delivery-takeout">
+                  Restaurant Deliver/Takeout: <span>(ok/not ok)</span>
+                </h4>
+                <h4 class="venue-reviews">
+                  Restaurant Reviews: <span>(stars?)</span>
+                </h4>
+                <h4 class="venue-link">
+                  Restaurant Website:
+                  <a href="#" class="restaurant-link">(link)</a>
+                </h4>
+              </div>
+            </div>
+          </div>
+          <!-- ^^ Modal Body: End ^^ -->
+
+          <!-- Modal Footer: Contains navigation buttons, like back or save/favorite -->
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+            <!-- <button type="button" class="btn btn-primary">
+              Save changes
+            </button> -->
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- jQuery -->
     <script
       src="https://code.jquery.com/jquery-3.5.1.js"
       integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
       crossorigin="anonymous"
     ></script>
-
+    <!-- Bootstrap core JavaScript -->
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"
+    ></script>
+    <!-- MDB core JavaScript -->
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"
+    ></script>
     <!-- moments -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-
     <!-- js -->
     <script src="js/scripts.js"></script>
   </body>
