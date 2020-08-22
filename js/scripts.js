@@ -62,13 +62,10 @@ $(document).ready(function () {
         query: city,
       },
     }).then(function (response) {
-      console.log(response);
       //the key for the id is just "id" not "city_id"
       const city_id = response.location_suggestions[0].entity_id;
-      console.log(city_id);
       //I think we might want to display the city and state as well so that the user can confirm that we are in the right location
       const city_name = response.location_suggestions[0].title;
-      console.log(city_name);
       callAjaxRestLookup(city_id, foodSearch);
     });
   }
@@ -87,7 +84,9 @@ $(document).ready(function () {
       },
       data: data,
     }).then(function (response) {
-      console.log(response);
+      const restLat = response.restaurants[0].restaurant.location.latitude;
+      const restLong = response.restaurants[0].restaurant.location.longitude;
+        
       for (let i = 0; i < response.restaurants.length; i++) {
         const restName = response.restaurants[i].restaurant.name;
         const restFeaturedImage = response.restaurants[i].restaurant.featured_image;
@@ -98,10 +97,10 @@ $(document).ready(function () {
         const outdoorSeating = function(){
           if (response.restaurants[i].restaurant.highlights.includes("Outdoor Seating") === true){
           return "Outdoor Seating";
-      }else{
-        return "Indoor Seating Only";
-      }
-    }
+          }else{
+            return "Indoor Seating Only";
+          }
+        }
 
         const $restResult = `
         <div class="row d-flex justify-content-center">
@@ -128,16 +127,14 @@ $(document).ready(function () {
     let foodSearch = $typeOfFood.val();
 
     pastSearchArr.push({food: foodSearch, city: citySearch});
-    console.log(pastSearchArr);
     $typeOfFood.val("");
     $location.val(""); // resets search text after search
  
-    console.log(citySearch);
-    console.log(foodSearch);
     localStorage.setItem("city", citySearch); // store searched item to LS to add back in later
     localStorage.setItem("search", foodSearch);
     callCityIDSearch(citySearch, foodSearch); // call function passing along both variables
     appendSearch(citySearch, foodSearch);
+    latLongPull(citySearch)
   });
 
   // function to append to left aside
@@ -157,14 +154,7 @@ $(document).ready(function () {
     }
   }
 
-  // AQI widget; to get local AQI, this needs coordinates
-  // let lat = 37.7749;
-  // let long = -122.4194;
-  // airQualityIndex(lat,long);
-  function airQualityIndex(latitude, longitude, city) {
-    // let latitude = 37.7749;
-    // let longitude = -122.4194;
-    // citySearch is the input value or from localStorage; declare variable for this
+   function airQualityIndex(latitude, longitude, city) {
     const citySearch = city;
     let aqiURL =
       "https://api.waqi.info/feed/geo:" +
@@ -177,62 +167,141 @@ $(document).ready(function () {
       url: aqiURL,
       method: "GET",
     }).then(function (response) {
-      console.log(response);
-      $todayAQI.html("");
+      console.log(response)
       let AQI = response.data.aqi;
+      $('.localAQI').text(`AQI: ${AQI}`)
 
-      // lets hard code a lot of this. most of it doesn't change...
-      let aqiHeader = $("<p>").addClass("aqiHeader").text("Air Quality Index");
-      $todayAQI.append(aqiHeader);
-      let aqiLocal = $("<p>")
-        .addClass("col-7 aqiLocal")
-        .text("Air Quality Index: " + AQI);
+      // let aqiHeader = $("<p>").addClass("aqiHeader").text("Air Quality Index");
+      // $todayAQI.append(aqiHeader);
+      // let aqiLocal = $("<p>")
+      //   .addClass("col-7 aqiLocal")
+      //   .text("Air Quality Index: " + AQI);
 
-      if (AQI == undefined) {
-        let aqiUnknown = $("<p>").text(
-          "Air Quality Index: unknown for this location"
-        );
-        $todayAQI.append(aqiUnknown);
-      } else {
-        let localTime = moment()
-          .utcOffset(response.data.time.tz)
-          .format("HH:mm");
-        let localTimeDisplay = $("<p>").text(
-          citySearch + " local time: " + localTime
-        );
+      // if (AQI == undefined) {
+      //   let aqiUnknown = $("<p>").text(
+      //     "Air Quality Index: unknown for this location"
+      //   );
+      //   $todayAQI.append(aqiUnknown);
+      // } else {
+      //   let localTime = moment()
+      //     .utcOffset(response.data.time.tz)
+      //     .format("HH:mm");
+      //   let localTimeDisplay = $("<p>").text(
+      //     citySearch + " local time: " + localTime
+      //   );
 
-        let aqiStation = $("<p>").text(
-          "Closest station: " + response.data.city.name
-        );
-        $localAQI.append(localTimeDisplay, aqiStation, aqiLocal);
+      //   let aqiStation = $("<p>").text(
+      //     "Closest station: " + response.data.city.name
+      //   );
+      //   $localAQI.append(localTimeDisplay, aqiStation, aqiLocal);
 
-        if (AQI <= 50) {
-          aqiLocal.css("background-color", "green");
-          aqiLocal.css("color", "white");
-        } else if (AQI <= 100) {
-          aqiLocal.css("background-color", "yellow");
-        } else if (AQI <= 150) {
-          aqiLocal.css("background-color", "orange");
-        } else if (AQI <= 200) {
-          aqiLocal.css("background-color", "red");
-          aqiLocal.css("color", "white");
-        } else if (AQI <= 300) {
-          aqiLocal.css("background-color", "blueviolet");
-          aqiLocal.css("color", "white");
-        } else {
-          aqiLocal.css("background-color", "maroon");
-          aqiLocal.css("background-color", "white");
-        }
-        $aqiRow.append(
-          good,
-          moderate,
-          sensitive,
-          unhealthy,
-          veryUnhealthy,
-          hazardous
-        );
-        $todayAQI.append($aqiRow);
-      }
+      //   if (AQI <= 50) {
+      //     aqiLocal.css("background-color", "green");
+      //     aqiLocal.css("color", "white");
+      //   } else if (AQI <= 100) {
+      //     aqiLocal.css("background-color", "yellow");
+      //   } else if (AQI <= 150) {
+      //     aqiLocal.css("background-color", "orange");
+      //   } else if (AQI <= 200) {
+      //     aqiLocal.css("background-color", "red");
+      //     aqiLocal.css("color", "white");
+      //   } else if (AQI <= 300) {
+      //     aqiLocal.css("background-color", "blueviolet");
+      //     aqiLocal.css("color", "white");
+      //   } else {
+      //     aqiLocal.css("background-color", "maroon");
+      //     aqiLocal.css("background-color", "white");
+      //   }
+      //   let $aqiRow = $("<p>")
+      //   $aqiRow.append(
+      //     good,
+      //     moderate,
+      //     sensitive,
+      //     unhealthy,
+      //     veryUnhealthy,
+      //     hazardous
+      //   );
+      //   $todayAQI.append($aqiRow);
+      
     });
+   }
+
+// weather widget
+const weatherAPIKey = "78d4820b52a05a5e039fd595437c5ac0";
+
+
+    // takes the location requested and runs an ajax request pulling the lat and long of the city
+    // the runs the weatherSearch function taking in the lat and long 
+    // updates the current city ID on screen
+    // checks if the city has been searched before, and if not, runs the appendSearch function
+    function latLongPull(location) {
+        // Here we are building the URL we need to query the database
+        let queryURL = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${weatherAPIKey}`;
+        $.ajax({
+            url: queryURL,
+            method: "GET"
+        }).then(function (response) {
+            $('.city').text(response.name)
+            let lat = response.coord.lat
+            let long = response.coord.lon
+            weatherSearch(lat,long)  
+        });
+    }
+
+    // Takes in the lat and long and pulls most of the relavent data we need to update
+    function weatherSearch(lat, long) {
+        // Here we are building the URL we need to query the database
+        let queryURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&appid=${weatherAPIKey}`
+        // We then created an AJAX call
+        $.ajax({
+            url: queryURL,
+            method: "GET"
+        }).then(function (response) {
+          console.log(response);
+            // updates current info section with relevent data
+            let curTemp = tempConversion(response.current.temp)
+            $('.temperature').text(curTemp + " F");
+            // converts windspeed from m/s to mph
+            let UVI = response.current.uvi
+            $('.description').text(`UVI: ${UVI}`)
+            uviBackgroundSet(UVI)
+            // retrieves the current and timezone offset value in Unix UTC 
+            // use the Date object and toUTCString method to convert the time
+            // multiply by 1000 because Date works in miliseconds.
+            // remove the last three characters of the string
+            linuxUTC = response.current.dt
+            timeZone = response.timezone_offset
+
+
+            let displayDate = new Date((linuxUTC*1000)+(timeZone*1000)).toDateString()
+            $('.date').text(displayDate)
+            console.log(displayDate);
+            let iconVal = response.current.weather[0].icon
+            $('#icon').attr('src', `http://openweathermap.org/img/wn/${iconVal}.png`)
+        });
+    }
+
+     // converts the temp from kelvin to F. Takes in a kelvin value and returns the converted value 
+     function tempConversion(temp){
+        let convertedTemp = ((temp - 273.15) * 1.80 + 32).toFixed(2);
+        return convertedTemp
+    }
+
+    // takes in a UVI value and sets the bg color based on the severity
+
+    function uviBackgroundSet(UVI){
+      if(UVI>7){
+          $('.description').css("background-color", "red")
+      } else if (UVI<4){
+          $('.description').css("background-color", "green")
+      } else {
+          $('.description').css("background-color", "orange")
+      }
   }
+
+
+
+
+
+
 });
