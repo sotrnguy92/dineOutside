@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dine Outside</title>
@@ -36,8 +37,8 @@
             <span class="input-group-text" id="basic-addon1"><img height="20px"
                 alt="emoji of bowl with steam rising from git" src="images/hotbowl.png" /></span>
           </div>
-          <input type="text" class="form-control typeOfFood" placeholder="Type of food or restaurant" aria-label="restaurant"
-            aria-describedby="basic-addon1">
+          <input type="text" class="form-control typeOfFood" placeholder="Type of food or restaurant"
+            aria-label="restaurant" aria-describedby="basic-addon1">
         </div>
         <div class="col-sm-6 input-group">
           <div class="input-group-prepend">
@@ -61,7 +62,7 @@
       </div>
     </header>
 
-    <div class="row d-flex justify-content-between mainContent">
+    <div class="row-fluid d-flex justify-content-between mainContent">
       <!-- this is where search history will be saved to localStorage -->
 
       <aside class="col-sm-3 mr-sm-3 searchHistory">
@@ -76,7 +77,7 @@
 
       <section class="col-sm-5 mr-sm-3 returnedRestaurants">
         <div class="row d-flex justify-content-center">
-          <div class="col-11 restaurantInfo">
+          <div class="col-11 restaurantInfo" data-toggle="modal" data-target="#business-venue-modal" data-index="0">
             <p class="resName">restaurant name:</p>
             <p class="foodType">type of food:</p>
             <p class="outdoor">outdoor seating?</p>
@@ -147,10 +148,10 @@
         </div>
         <!-- vv Modal Body: Start vv -->
         <div class="modal-body">
-          <div class="container-fluid d-flex flex-row">
+          <div class="container-fluid d-flex flex-row flex-sm-column">
             <!-- Image container -->
             <div class="image-container">
-              <img
+              <img class="w-responsive"
                 src="https://b.zmtcdn.com/data/res_imagery/17769436_RESTAURANT_22714b19a3df35cfb3963b297327b522_c.jpg"
                 alt="venue image" />
             </div>
