@@ -29,11 +29,21 @@ header {
   margin: 0 auto;
 }
 
+.form-control::placeholder {
+    font-weight: bold;
+}
+
 .searchButton {
   cursor: pointer;
+  box-shadow: none;
 }
+
 .searchButton:hover {
   filter: drop-shadow(4px 4px 2px #504C4C);
+}
+
+#search-button-addon {
+    box-shadow: none;
 }
 
 /* left column */
