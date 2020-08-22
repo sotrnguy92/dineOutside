@@ -31,11 +31,7 @@ $(document).ready(function () {
 
   const urlLocationSearch = "https://developers.zomato.com/api/v2.1/locations";
   const urlQuerySearch = "https://developers.zomato.com/api/v2.1/search";
-  let foodSearch = "ramen"; // to comment out
-  let citySearch = "los angeles"; // to comment out
-  // const dataCitySearch = {
-  //                         'query': citySearch
-  //                         }
+
   let cityCount = 0;
 
   // you can empty this out every time the user searches for a new city
@@ -45,8 +41,10 @@ $(document).ready(function () {
   const $returnedRestaurants = $(".returnedRestaurants");
 
   // dynamically generate search results in this container
-  const $restaurantInfo = $("<div>").addClass("col-11 restaurantInfo");
+  const   $restaurantInfo = $("<div>").addClass("col-11 restaurantInfo");
   // append in this container: $returnedRestaurants.append($restaurantInfo);
+
+  let pastSearchArr = [];
 
   function callCityIDSearch(city, foodSearch) {
     $.ajax({
@@ -59,11 +57,12 @@ $(document).ready(function () {
         query: city,
       },
     }).then(function (response) {
-      //the key for the id is just "id" not "city_id"
-      const city_id = response.location_suggestions[0].id;
       console.log(response);
+      //the key for the id is just "id" not "city_id"
+      const city_id = response.location_suggestions[0].entity_id;
+      console.log(city_id);
       //I think we might want to display the city and state as well so that the user can confirm that we are in the right location
-      let city_name = response.location_suggestions[0].name;
+      let city_name = response.location_suggestions[0].title;
       console.log(city_name);
       callAjaxRestLookup(city_id, foodSearch);
     });
@@ -86,18 +85,19 @@ $(document).ready(function () {
       console.log(response);
       console.log(response.restaurants[0].restaurant);
       for (let i = 0; i < response.restaurants.length; i++) {
-        restName = response.restaurants[i].restaurant.name;
-        restFeaturedImage = response.restaurants[i].restaurant.featured_image;
-        restOpenTime = response.restaurants[i].restaurant.timings;
-        restLat = response.restaurants[i].restaurant.location.latitude;
-        restLong = response.restaurants[i].restaurant.location.longitude;
-        restAdress = response.restaurants[i].restaurant.location.address;
+        const restName = response.restaurants[i].restaurant.name;
+        const restFeaturedImage = response.restaurants[i].restaurant.featured_image;
+        const restOpenTime = response.restaurants[i].restaurant.timings;
+        const restLat = response.restaurants[i].restaurant.location.latitude;
+        const restLong = response.restaurants[i].restaurant.location.longitude;
+        const restAddress = response.restaurants[i].restaurant.location.address;
         console.log(
           restName,
           restFeaturedImage,
           restOpenTime,
           restLat,
-          restLong
+          restLong,
+          restAddress
         );
         // append necessary info in HTML format. Consider how many rest results we want to show
         // set values = necessary HTML elements
@@ -111,8 +111,15 @@ $(document).ready(function () {
   $searchButton.on("click", function (event) {
     event.preventDefault();
     let citySearch = $location.val(); // set dataCitySearch object query value to the value submitted
-    $location.text(""); // resets search text after search
     let foodSearch = $typeOfFood.val();
+
+    pastSearchArr.push({food: foodSearch, city: citySearch});
+    console.log(pastSearchArr);
+    $typeOfFood.val("");
+    $location.val(""); // resets search text after search
+ 
+    console.log(citySearch);
+    console.log(foodSearch);
     localStorage.setItem("city", citySearch); // store searched item to LS to add back in later
     localStorage.setItem("search", foodSearch);
     callCityIDSearch(citySearch, foodSearch); // call function passing along both variables
@@ -130,7 +137,7 @@ $(document).ready(function () {
       let $city = $("<li>");
       $city.text(`${citySearch}: ${foodSearch}`).addClass("userResults");
       $city.attr("id", `${citySearch}:${foodSearch}`);
-      $(".previousSearches").append($city);
+      $(".userList").append($city);
       cityCount++;
       // searchHistory.push(location.toLowerCase()) array or object with previous searches to make sure we don't append repeat searches
     }
