@@ -5,6 +5,7 @@ $(document).ready(function () {
   // container that will hold list of search history
   const $searchHistory = $(".searchHistory");
   const $userList = $(".userList"); // this is a UL element. append $("<li>") search results here
+  const $searchResult = $('.search-result');
   // dynamically generate search history list here in list items
   // append all li this container: $searchHistory.append($userList);
 
@@ -24,11 +25,8 @@ $(document).ready(function () {
 
   // display current local time
   const $today = $(".today");
-  let today = moment().format("dddd");
+  let today = moment().format("ddd, MMM DD, YYYY");
   $today.text("TODAY: " + today);
-  const $date = $(".date");
-  let date = moment().format("MMMM DD, YYYY");
-  $date.text(date);
 
   // AQI will be generated in this container, botton right column on page
   const $todayAQI = $(".todayAQI");
@@ -88,8 +86,10 @@ $(document).ready(function () {
       const restLat = response.restaurants[0].restaurant.location.latitude;
       const restLong = response.restaurants[0].restaurant.location.longitude;
 
+
       $(".returnedRestaurants").html("") // clear previous results        
       for (let i = 0; i < 10; i++) {
+
         const restName = response.restaurants[i].restaurant.name;
         const restFeaturedImage =
           response.restaurants[i].restaurant.featured_image;
@@ -107,17 +107,19 @@ $(document).ready(function () {
             return "Indoor Seating Only";
           }
         };
-        const $restResult = `
-        <div class="row d-flex justify-content-center">
-          <div class="col-11 restaurantInfo" data-toggle="modal" data-target="#business-venue-modal" data-index="0">
-            <p class="resName">restaurant name: ${restName}</p>
-            <p class="foodType">type of food: ${foodSearch}</p>
-            <p class="outdoor">outdoor seating? ${outdoorSeating()}</p>
-          </div>
-        </div>`;
-        $(".returnedRestaurants").append($restResult);
-        $("#venue").text(restAddress)
-        $("#venueContactInfo").text(restNumber)
+
+
+        // clones result layout and make it visible then fill in the necessary details then append it to .returnedRestaurant class element
+        const newSearchResult = $searchResult.clone();
+
+        newSearchResult.removeAttr("hidden").addClass("d-flex");
+        newSearchResult.children().find('.resName').text(restName);
+        newSearchResult.children().find('.foodType').text(foodSearch);
+        newSearchResult.children().find('.outdoor').text(outdoorSeating());
+
+        newSearchResult.attr('data-rest-id', response.restaurants[i].restaurant.id);
+
+        $(".returnedRestaurants").append(newSearchResult);
 
 
         // append necessary info in HTML format. Consider how many rest results we want to show
@@ -237,8 +239,8 @@ $(document).ready(function () {
     }).then(function (response) {
       console.log(response);
       // updates current info section with relevent data
-      let curTemp = tempConversion(response.current.temp);
-      $(".temperature").text(curTemp + " F");
+      let curTemp = Math.round(tempConversion(response.current.temp));
+      $(".temperature").text(curTemp + "ºF");
       // converts windspeed from m/s to mph
       let UVI = response.current.uvi;
       $(".description").text(`UVI: ${UVI}`);

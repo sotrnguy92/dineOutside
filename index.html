@@ -23,18 +23,19 @@
 
   <!-- add google fonts below -->
 
-  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@600&family=Russo+One&family=Zilla+Slab&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@600&family=Russo+One&family=Zilla+Slab&display=swap"
+    rel="stylesheet">
 
 
 </head>
 
 <body>
-  
+
   <div class="container-fluid position-relative">
-    
 
 
-    <header class="row mb-4 px-md-3 px-lg-5 d-flex flex-md-row justify-content-between align-items-md-end align-items-sm-center flex-column-reverse">
+
+    <header class="row sticky-top mb-4 px-md-3 px-lg-5 d-flex flex-md-row justify-content-between align-items-md-end align-items-sm-center flex-column-reverse">
       <form action="#" class="row-fluid col-md-6 input-group mb-3 d-flex flex-row justify-content-between">
         <div class="col-sm-6 input-group">
           <div class="input-group-prepend">
@@ -70,7 +71,7 @@
         <img class="header-pics ml-2" src="images/cityscape.png" />
       </div>
     </header>
-      
+
     <div class="row m-1 d-flex justify-content-center mainContent">
       <!-- this is where search history will be saved to localStorage -->
 
@@ -85,6 +86,14 @@
 
       <section class="col-md-5 mr-md-3 returnedRestaurants">
         <div class="row d-flex justify-content-center">
+
+          <div class="row justify-content-center search-result" hidden>
+            <div class="col-11 restaurantInfo" data-toggle="modal" data-target="#business-venue-modal" data-index="0">
+              <p>restaurant name:<span class="resName ml-1"> </span></p>
+              <p>type of food:<span class="foodType ml-1"> </span></p>
+              <p>outdoor seating?<span class="outdoor ml-1"></span></p>
+            </div>
+          </div>
           <!-- search results will populate here -->
           <!-- <div class="col-11 restaurantInfo" data-toggle="modal" data-target="#business-venue-modal" data-index="0"></div> -->
         </div>
@@ -95,12 +104,11 @@
         <!-- weather conditions will go here -->
         <div class="row d-flex justify-content-center">
           <div class="col-sm-11 weather">
-            <p class="city">City</p>
-            <p class="description">description</p>
+            <p class="city"></p>
+            <p class="description"></p>
             <p><img class="icon" src="" /></p>
-            <p class="temperature">temperature</p>
-            <p class="today">TODAY</p>
-            <p class="date">date</p>
+            <p class="temperature"></p>
+            <p class="today"></p>
 
             <!-- this is the weather column -->
           </div>
@@ -163,10 +171,10 @@
 
             <!-- Details Container -->
             <div class="details-container d-flex flex-column justify-content-between ml-3">
-              <h4 class="venue-name">Restaurant Name: <span>(Name)</span></h4>
-              <h4 class="venue-name">
+              <h4 class="venue-name">Restaurant Name: <span id="venueName">(Name)</span></h4>
+              <h4 class="about">
                 Restaurant Blurb:
-                <span>
+                <span id="about">
                   (Lorem ipsum dolor sit amet consectetur adipisicing elit.
                   Non illum, eum saepe, enim est excepturi laboriosam ipsam
                   dicta delectus, voluptatem vel blanditiis modi dignissimos
@@ -175,8 +183,8 @@
                   velit in accusamus laudantium, temporibus unde, odit animi
                   placeat nemo recusandae vel officiis.)</span>
               </h4>
-              <h4 class="venue-name">
-                Restaurant Address: <span id="venueName">(Address)</span>
+              <h4 class="venue-address">
+                Restaurant Address: <span id="venueAddress">(Address)</span>
               </h4>
               <h4 class="venue-contact-info">
                 Restaurant Contact Info: <span id="venueContactInfo">(phone number)</span>
