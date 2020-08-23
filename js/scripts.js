@@ -188,23 +188,7 @@ $(document).ready(function () {
       $("#venueReviews").text(response.user_rating.rating_text);
       $("#restaurantLink").attr("href", response.url);
 
-      //   const restFeaturedImage =
-      //   response.restaurants[i].restaurant.featured_image;
-      // const restOpenTime = response.restaurants[i].restaurant.timings;
-      // const restAddress = response.restaurants[i].restaurant.location.address;
-      // const restNumber = response.restaurants[i].restaurant.location.phone_numbers;
 
-      // const outdoorSeating = function () {
-      //   if (
-      //     response.restaurants[i].restaurant.highlights.includes(
-      //       "Outdoor Seating"
-      //     ) === true
-      //   ) {
-      //     return "Outdoor Seating";
-      //   } else {
-      //     return "Indoor Seating Only";
-      //   }
-      // };
     });
   });
 
