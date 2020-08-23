@@ -143,6 +143,14 @@ li:hover {
     border-radius: 20px;
 }
 
+
+.city {
+    font-size: 24px;
+}
+
+.temperature {
+    font-size: 60px;
+}
 .localAQI {
     font-size: 60px;
     border-radius: 30px;
