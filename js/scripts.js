@@ -26,9 +26,6 @@ $(document).ready(function () {
   const $today = $(".today");
   let today = moment().format("ddd, MMM DD, YYYY");
   $today.text("TODAY: " + today);
-  const $date = $(".date");
-  let date = moment().format("MMMM DD, YYYY");
-  $date.text(date);
 
   // AQI will be generated in this container, botton right column on page
   const $todayAQI = $(".todayAQI");
