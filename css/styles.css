@@ -20,14 +20,13 @@ h2 {
 header {
   background-color: #ea5455;
   padding-top: 50px;
-
 }
 
 h1 {
     font-family: 'Russo One', sans-serif;
     color: black;
     font-size: 50px;
-  }
+}
 
 .header-pics {
     height: 50px;
@@ -116,6 +115,11 @@ li:hover {
     background-color: #CCDAEB;
 }
 
+.resName {
+    font-size: 20px;
+    font-family: 'Kanit', sans-serif;
+}
+
 /* right column */
 .conditions {
     background-color: #e5e5e5;
@@ -132,9 +136,11 @@ li:hover {
     border-radius: 20px;
 }
 
-.aqiLocal {
-    padding: 10px;
-    border: 1px solid black;
+.localAQI {
+    font-size: 60px;
+    border-radius: 30px;
+    margin-bottom: 10px;
+    text-align: center;
 }
 
 .good {
