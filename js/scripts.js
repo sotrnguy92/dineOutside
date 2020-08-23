@@ -2,8 +2,6 @@ $(document).ready(function () {
   // VARIABLES 
   // image of magnifying glass that you can use as search button
   const $searchForm = $("form");
-  // container that will hold list of search history
-  const $searchHistory = $(".searchHistory");
   // this is a UL element. append $("<li>") search results here
   const $userList = $(".userList"); 
   // dynamically generate search history list here in list items
@@ -13,10 +11,7 @@ $(document).ready(function () {
   const $typeOfFood = $(".typeOfFood");
   // input field asking for city or zip code
   const $location = $(".location");
-  // weather will be generated in this container, top right column on page
-  const $weather = $(".weather");
   // place weather values in here
-  const $cityName = $(".cityName");
   const $description = $(".description");
   const $icon = $(".icon");
   const $temperature = $(".temperature");
@@ -30,14 +25,8 @@ $(document).ready(function () {
   let cityCount = 0;
   // you can empty this out every time the user searches for a new city. For adding contents to the AQI function
   const $localAQI = $(".localAQI");
-  // AQI will be generated in this container, botton right column on page
-  const $todayAQI = $(".todayAQI");
   // parent container on center of page for returned restaurants
   const $returnedRestaurants = $(".returnedRestaurants");
-
-  // dynamically generate search results in this container
-  const $restaurantInfo = $("<div>").addClass("col-11 restaurantInfo");
-  // append in this container: $returnedRestaurants.append($restaurantInfo);
   // display current local time
   const $today = $(".today");
   let today = moment().format("ddd, MMM DD, YYYY");
