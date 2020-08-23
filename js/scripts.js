@@ -300,11 +300,12 @@ $(document).ready(function () {
     }).then(function (response) {
       console.log(response);
       // updates current info section with relevent data
+      $description.text(response.daily[0].weather[0].description);
       let curTemp = Math.round(tempConversion(response.current.temp));
       $(".temperature").text(curTemp + "ºF");
       // converts windspeed from m/s to mph
-      let UVI = response.current.uvi;
-      $(".description").text(`UVI: ${UVI}`);
+      let UVI = Math.round(response.current.uvi);
+      $(".UVI").text(`UVI: ${UVI}`);
       uviBackgroundSet(UVI);
       // retrieves the current and timezone offset value in Unix UTC
       // use the Date object and toUTCString method to convert the time
@@ -333,11 +334,11 @@ $(document).ready(function () {
 
   function uviBackgroundSet(UVI) {
     if (UVI > 7) {
-      $(".description").css("background-color", "red");
+      $(".UVI").css("background-color", "red");
     } else if (UVI < 4) {
-      $(".description").css("background-color", "green");
+      $(".UVI").css("background-color", "green");
     } else {
-      $(".description").css("background-color", "orange");
+      $(".UVI").css("background-color", "orange");
     }
   }
 });
