@@ -33,7 +33,7 @@ $(document).ready(function () {
 
   const urlLocationSearch = "https://developers.zomato.com/api/v2.1/locations";
   const urlQuerySearch = "https://developers.zomato.com/api/v2.1/search";
-  const urlRestSearch = ""
+  const urlRestSearch = "https://developers.zomato.com/api/v2.1/restaurant";
   let cityCount = 0;
 
   // you can empty this out every time the user searches for a new city
@@ -106,7 +106,7 @@ $(document).ready(function () {
         newSearchResult.children().find('.resName').text(restName);
         newSearchResult.children().find('.foodType').text(foodSearch);
         newSearchResult.children().find('.outdoor').text(outdoorSeating());
-        newSearchResult.attr('data-rest-id', response.restaurants[i].restaurant.id);
+        newSearchResult.find('.restaurantInfo').attr('data-index', response.restaurants[i].restaurant.id);
         $(".returnedRestaurants").append(newSearchResult);
       }
       airQualityIndex(restLat, restLong);
@@ -114,40 +114,42 @@ $(document).ready(function () {
   }
 
   // brings up modal info. clears and updaes
-  $(".search-result").on('click', function(event){
-    console.log($(event.target).parent().attr('data-rest-id'));
-    restID = $(event.target).parent().attr('data-rest-id')
-      const data = {
-        entity_id: restID,
-      };
-      $.ajax({
-        url: urlRestSearch,
-        method: "GET",
-        headers: {
-          "user-key": "beddad251d06b8803b32610b0bf44218",
-        },
-        data: data,
-      }).then(function (response) {
-        console.log(response)
+  $("#business-venue-modal").on('shown.bs.modal', function (event) {
+    restID = $(event.relatedTarget).attr('data-index');
     
-        // clear modal values
-        $("#venueName").text("")
-        $("#about").text("")
-        $("#venueAddress").text("")
-        $("#venueContactInfo").text("")
-        $("#venueCuisine").text("")
-        $("#venueDeliveryTakeout").text("")
-        $("#venueReviews").text("")
-        $("#restaurantLink").text("")
-        // update modal values
-        $("#venueName").text(response)
-        $("#about").text(response)
-        $("#venueAddress").text(response)
-        $("#venueContactInfo").text(response)
-        $("#venueCuisine").text(response)
-        $("#venueDeliveryTakeout").text(response)
-        $("#venueReviews").text(response)
-        $("#restaurantLink").text(response)
+    const data = {
+      res_id: restID,
+    };
+
+    // clear modal values
+    $("#venueName").text("")
+    $("#about").text("")
+    $("#venueAddress").text("")
+    $("#venueContactInfo").text("")
+    $("#venueCuisine").text("")
+    $("#venueDeliveryTakeout").text("")
+    $("#venueReviews").text("")
+    $("#restaurantLink").text("")
+
+    $.ajax({
+      url: urlRestSearch,
+      method: "GET",
+      headers: {
+        "user-key": "beddad251d06b8803b32610b0bf44218",
+      },
+      data: data,
+    }).then(function (response) {
+      console.log(response)
+
+      // update modal values
+      $("#venueName").text(response)
+      $("#about").text(response)
+      $("#venueAddress").text(response)
+      $("#venueContactInfo").text(response)
+      $("#venueCuisine").text(response)
+      $("#venueDeliveryTakeout").text(response)
+      $("#venueReviews").text(response)
+      $("#restaurantLink").text(response)
 
       //   const restFeaturedImage =
       //   response.restaurants[i].restaurant.featured_image;
@@ -155,20 +157,20 @@ $(document).ready(function () {
       // const restAddress = response.restaurants[i].restaurant.location.address;
       // const restNumber = response.restaurants[i].restaurant.location.phone_numbers;
 
-          // const outdoorSeating = function () {
-          //   if (
-          //     response.restaurants[i].restaurant.highlights.includes(
-          //       "Outdoor Seating"
-          //     ) === true
-          //   ) {
-          //     return "Outdoor Seating";
-          //   } else {
-          //     return "Indoor Seating Only";
-          //   }
-          // };
+      // const outdoorSeating = function () {
+      //   if (
+      //     response.restaurants[i].restaurant.highlights.includes(
+      //       "Outdoor Seating"
+      //     ) === true
+      //   ) {
+      //     return "Outdoor Seating";
+      //   } else {
+      //     return "Indoor Seating Only";
+      //   }
+      // };
 
-        })
-    });
+    })
+  });
 
   // for testing - calls the query search; would normally happen on line 57
   // callCityIDSearch(citySearch,foodSearch) // to comment out
@@ -207,7 +209,7 @@ $(document).ready(function () {
     }
   }
 
-  $(document).on("click", ".userResults", function(event){
+  $(document).on("click", ".userResults", function (event) {
     console.log(event.target.getAttribute('data-city-id'))
     cityName = event.target.getAttribute('data-city-id')
     console.log(event.target.getAttribute('data-food-id'))
