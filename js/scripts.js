@@ -216,7 +216,6 @@ $(document).ready(function () {
     let citySearch = $location.val(); // set dataCitySearch object query value to the value submitted
     let foodSearch = $typeOfFood.val();
 
-    pastSearchArr.push({ food: foodSearch, city: citySearch });
     $typeOfFood.val("");
     $location.val(""); // resets search text after search
 
