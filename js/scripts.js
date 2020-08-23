@@ -33,7 +33,7 @@ $(document).ready(function () {
 
   const urlLocationSearch = "https://developers.zomato.com/api/v2.1/locations";
   const urlQuerySearch = "https://developers.zomato.com/api/v2.1/search";
-
+  const urlRestSearch = ""
   let cityCount = 0;
 
   // you can empty this out every time the user searches for a new city
@@ -86,16 +86,9 @@ $(document).ready(function () {
       const restLat = response.restaurants[0].restaurant.location.latitude;
       const restLong = response.restaurants[0].restaurant.location.longitude;
 
-
       $(".returnedRestaurants").html("") // clear previous results        
       for (let i = 0; i < 10; i++) {
-
         const restName = response.restaurants[i].restaurant.name;
-        const restFeaturedImage =
-          response.restaurants[i].restaurant.featured_image;
-        const restOpenTime = response.restaurants[i].restaurant.timings;
-        const restAddress = response.restaurants[i].restaurant.location.address;
-        const restNumber = response.restaurants[i].restaurant.location.phone_numbers;
         const outdoorSeating = function () {
           if (
             response.restaurants[i].restaurant.highlights.includes(
@@ -107,32 +100,80 @@ $(document).ready(function () {
             return "Indoor Seating Only";
           }
         };
-
-
         // clones result layout and make it visible then fill in the necessary details then append it to .returnedRestaurant class element
         const newSearchResult = $searchResult.clone();
-
         newSearchResult.removeAttr("hidden").addClass("d-flex");
         newSearchResult.children().find('.resName').text(restName);
         newSearchResult.children().find('.foodType').text(foodSearch);
         newSearchResult.children().find('.outdoor').text(outdoorSeating());
-
         newSearchResult.attr('data-rest-id', response.restaurants[i].restaurant.id);
-
         $(".returnedRestaurants").append(newSearchResult);
-
-
-        // append necessary info in HTML format. Consider how many rest results we want to show
-        // set values = necessary HTML elements
       }
-      airQualityIndex(restLat, restLong, cityID);
+      airQualityIndex(restLat, restLong);
     });
   }
+
+  // brings up modal info. clears and updaes
+  $(".search-result").on('click', function(event){
+    console.log($(event.target).parent().attr('data-rest-id'));
+    restID = $(event.target).parent().attr('data-rest-id')
+      const data = {
+        entity_id: restID,
+      };
+      $.ajax({
+        url: urlRestSearch,
+        method: "GET",
+        headers: {
+          "user-key": "beddad251d06b8803b32610b0bf44218",
+        },
+        data: data,
+      }).then(function (response) {
+        console.log(response)
+    
+        // clear modal values
+        $("#venueName").text("")
+        $("#about").text("")
+        $("#venueAddress").text("")
+        $("#venueContactInfo").text("")
+        $("#venueCuisine").text("")
+        $("#venueDeliveryTakeout").text("")
+        $("#venueReviews").text("")
+        $("#restaurantLink").text("")
+        // update modal values
+        $("#venueName").text(response)
+        $("#about").text(response)
+        $("#venueAddress").text(response)
+        $("#venueContactInfo").text(response)
+        $("#venueCuisine").text(response)
+        $("#venueDeliveryTakeout").text(response)
+        $("#venueReviews").text(response)
+        $("#restaurantLink").text(response)
+
+      //   const restFeaturedImage =
+      //   response.restaurants[i].restaurant.featured_image;
+      // const restOpenTime = response.restaurants[i].restaurant.timings;
+      // const restAddress = response.restaurants[i].restaurant.location.address;
+      // const restNumber = response.restaurants[i].restaurant.location.phone_numbers;
+
+          // const outdoorSeating = function () {
+          //   if (
+          //     response.restaurants[i].restaurant.highlights.includes(
+          //       "Outdoor Seating"
+          //     ) === true
+          //   ) {
+          //     return "Outdoor Seating";
+          //   } else {
+          //     return "Indoor Seating Only";
+          //   }
+          // };
+
+        })
+    });
+
   // for testing - calls the query search; would normally happen on line 57
   // callCityIDSearch(citySearch,foodSearch) // to comment out
   // need to add submit button on HTML. need to add LocVal input as well
   $searchForm.on("submit", function (event) {
-    console.log('hello')
     event.preventDefault();
     let citySearch = $location.val(); // set dataCitySearch object query value to the value submitted
     let foodSearch = $typeOfFood.val();
@@ -158,15 +199,25 @@ $(document).ready(function () {
     } else {
       let $city = $("<li>");
       $city.text(`${citySearch}: ${foodSearch}`).addClass("userResults");
-      $city.attr("id", `${citySearch}:${foodSearch}`);
+      $city.attr("data-city-id", citySearch);
+      $city.attr('data-food-id', foodSearch);
       $(".userList").append($city);
       cityCount++;
       // searchHistory.push(location.toLowerCase()) array or object with previous searches to make sure we don't append repeat searches
     }
   }
 
-  function airQualityIndex(latitude, longitude, city) {
-    const citySearch = city;
+  $(document).on("click", ".userResults", function(event){
+    console.log(event.target.getAttribute('data-city-id'))
+    cityName = event.target.getAttribute('data-city-id')
+    console.log(event.target.getAttribute('data-food-id'))
+    foodName = event.target.getAttribute('data-food-id')
+
+    callCityIDSearch(cityName, foodName); // call function passing along both variables
+    latLongPull(cityName);
+  })
+
+  function airQualityIndex(latitude, longitude) {
     let aqiURL =
       "https://api.waqi.info/feed/geo:" +
       latitude +
@@ -180,7 +231,7 @@ $(document).ready(function () {
     }).then(function (response) {
       console.log(response);
       let AQI = response.data.aqi;
-      $localAQI.text(`${AQI}`);
+      $localAQI.text(AQI);
 
       if (AQI == undefined) {
         $localAQI.text(`AQI: unknown for this location`);
@@ -255,7 +306,7 @@ $(document).ready(function () {
       let displayDate = new Date(
         linuxUTC * 1000 + timeZone * 1000
       ).toDateString();
-      $(".date").text(displayDate);
+      $(".today").text(displayDate);
       console.log(displayDate);
       let iconVal = response.current.weather[0].icon;
       $(".icon").attr("src", `http://openweathermap.org/img/wn/${iconVal}.png`);
