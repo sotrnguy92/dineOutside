@@ -188,6 +188,13 @@ $(document).ready(function () {
       $("#venueReviews").text(response.user_rating.rating_text);
       $("#restaurantLink").attr("href", response.url);
 
+
+    });
+  });
+
+  // for testing - calls the query search; would normally happen on line 57
+  // callCityIDSearch(citySearch,foodSearch) // to comment out
+  // need to add submit button on HTML. need to add LocVal input as well
   $searchForm.on("submit", function (event) {
     event.preventDefault();
     let citySearch = $location.val(); // set dataCitySearch object query value to the value submitted
@@ -215,6 +222,7 @@ $(document).ready(function () {
       $city.attr("data-food-id", foodSearch);
       $(".userList").append($city);
       cityCount++;
+      // searchHistory.push(location.toLowerCase()) array or object with previous searches to make sure we don't append repeat searches
 
       //add search to local storage
       localStorage.setItem("city" + cityCount, citySearch); // store searched item to LS to add back in later
