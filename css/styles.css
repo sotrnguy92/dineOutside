@@ -94,11 +94,13 @@ li:hover {
 
 .searchHistory {
     background-color: #e5e5e5;
+    border-radius: 4px;
 }
 
 /* center column */
 .returnedRestaurants {
     background-color: #decdc3;
+    border-radius: 4px;
     padding: 10px;
 }
 
@@ -123,6 +125,7 @@ li:hover {
 /* right column */
 .conditions {
     background-color: #e5e5e5;
+    border-radius: 4px;
 }
 
 .city {
@@ -150,6 +153,12 @@ li:hover {
 
 .temperature {
     font-size: 60px;
+}
+
+.UVI {
+    padding:10px;
+    border-radius: 30px;
+    text-align: center;
 }
 .localAQI {
     font-size: 60px;
