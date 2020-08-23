@@ -125,6 +125,13 @@ li:hover {
     background-color: #e5e5e5;
 }
 
+.city {
+    font-size: 24px;
+}
+
+.temperature {
+    font-size: 60px;
+}
 .weather,
 .todayAQI {
     padding: 10px;
