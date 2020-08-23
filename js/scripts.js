@@ -55,8 +55,6 @@ $(document).ready(function () {
   const $restaurantInfo = $("<div>").addClass("col-11 restaurantInfo");
   // append in this container: $returnedRestaurants.append($restaurantInfo);
 
-  let pastSearchArr = [];
-  console.log(parseInt(localStorage.getItem('cityCount'))+1);
   function loadSavedSearches(){
     for (let i=1; i< parseInt(localStorage.getItem('cityCount'))+1; i++){
       let $city = $("<li>");
