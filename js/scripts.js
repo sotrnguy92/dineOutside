@@ -122,14 +122,16 @@ $(document).ready(function () {
     };
 
     // clear modal values
+    $('.venue-image-display').attr('src', 'https://via.placeholder.com/500x500');
     $("#venueName").text("")
     $("#about").text("")
+    $("#venueOpening").text("");
     $("#venueAddress").text("")
     $("#venueContactInfo").text("")
     $("#venueCuisine").text("")
-    $("#venueDeliveryTakeout").text("")
+    $("#venueDelivery").text("")
     $("#venueReviews").text("")
-    $("#restaurantLink").text("")
+    $("#restaurantLink").attr("href", "#");
 
     $.ajax({
       url: urlRestSearch,
@@ -140,16 +142,22 @@ $(document).ready(function () {
       data: data,
     }).then(function (response) {
       console.log(response)
+      let highlights = '';
+      response.highlights.forEach(element => {
+        highlights += `${element}, `;
+      });
 
       // update modal values
-      $("#venueName").text(response)
-      $("#about").text(response)
-      $("#venueAddress").text(response)
-      $("#venueContactInfo").text(response)
-      $("#venueCuisine").text(response)
-      $("#venueDeliveryTakeout").text(response)
-      $("#venueReviews").text(response)
-      $("#restaurantLink").text(response)
+      $('.venue-image-display').attr('src', response.featured_image.replace('"',''));
+      $("#venueName").text(response.name)
+      $("#about").text(highlights.slice(0, -2));
+      $("#venueOpening").text(response.timings);
+      $("#venueAddress").text(response.location.address)
+      $("#venueContactInfo").text(response.phone_numbers)
+      $("#venueCuisine").text(response.cuisines)
+      $("#venueDelivery").text(response.is_delivering_now? 'Yes':'No');
+      $("#venueReviews").text(response.user_rating.rating_text)
+      $("#restaurantLink").attr('href',(response.url));
 
       //   const restFeaturedImage =
       //   response.restaurants[i].restaurant.featured_image;
