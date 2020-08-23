@@ -5,6 +5,7 @@ $(document).ready(function () {
   // container that will hold list of search history
   const $searchHistory = $(".searchHistory");
   const $userList = $(".userList"); // this is a UL element. append $("<li>") search results here
+  const $searchResult = $('.search-result');
   // dynamically generate search history list here in list items
   // append all li this container: $searchHistory.append($userList);
 
@@ -84,6 +85,7 @@ $(document).ready(function () {
       const restLong = response.restaurants[0].restaurant.location.longitude;
 
       for (let i = 0; i < response.restaurants.length; i++) {
+
         const restName = response.restaurants[i].restaurant.name;
         const restFeaturedImage =
           response.restaurants[i].restaurant.featured_image;
@@ -103,15 +105,17 @@ $(document).ready(function () {
           }
         };
 
-        const $restResult = `
-        <div class="row d-flex justify-content-center">
-        <div class="col-11 restaurantInfo" data-toggle="modal" data-target="#business-venue-modal" data-index="0">
-          <p class="resName">restaurant name: ${restName}</p>
-          <p class="foodType">type of food: ${foodSearch}</p>
-          <p class="outdoor">outdoor seating? ${outdoorSeating()}</p>
-        </div>
-      </div>`;
-        $(".returnedRestaurants").append($restResult);
+        // clones result layout and make it visible then fill in the necessary details then append it to .returnedRestaurant class element
+        const newSearchResult = $searchResult.clone();
+
+        newSearchResult.removeAttr("hidden").addClass("d-flex");
+        newSearchResult.children().find('.resName').text(restName);
+        newSearchResult.children().find('.foodType').text(foodSearch);
+        newSearchResult.children().find('.outdoor').text(outdoorSeating());
+
+        newSearchResult.attr('data-rest-id', response.restaurants[i].restaurant.id);
+
+        $(".returnedRestaurants").append(newSearchResult);
 
         // append necessary info in HTML format. Consider how many rest results we want to show
         // set values = necessary HTML elements
