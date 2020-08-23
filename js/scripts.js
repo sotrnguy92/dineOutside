@@ -1,6 +1,6 @@
 $(document).ready(function () {
   // image of magnifying glass that you can use as search button
-  const $searchButton = $(".searchButton");
+  const $searchForm = $("form");
 
   // container that will hold list of search history
   const $searchHistory = $(".searchHistory");
@@ -122,7 +122,8 @@ $(document).ready(function () {
   // for testing - calls the query search; would normally happen on line 57
   // callCityIDSearch(citySearch,foodSearch) // to comment out
   // need to add submit button on HTML. need to add LocVal input as well
-  $searchButton.on("click", function (event) {
+  $searchForm.on("submit", function (event) {
+    console.log('hello')
     event.preventDefault();
     let citySearch = $location.val(); // set dataCitySearch object query value to the value submitted
     let foodSearch = $typeOfFood.val();
