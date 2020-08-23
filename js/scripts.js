@@ -24,7 +24,7 @@ $(document).ready(function () {
 
   // display current local time
   const $today = $(".today");
-  let today = moment().format("dddd");
+  let today = moment().format("ddd, MMM DD, YYYY");
   $today.text("TODAY: " + today);
   const $date = $(".date");
   let date = moment().format("MMMM DD, YYYY");
@@ -232,8 +232,8 @@ $(document).ready(function () {
     }).then(function (response) {
       console.log(response);
       // updates current info section with relevent data
-      let curTemp = tempConversion(response.current.temp);
-      $(".temperature").text(curTemp + " F");
+      let curTemp = Math.round(tempConversion(response.current.temp));
+      $(".temperature").text(curTemp + "ºF");
       // converts windspeed from m/s to mph
       let UVI = response.current.uvi;
       $(".description").text(`UVI: ${UVI}`);
