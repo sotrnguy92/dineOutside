@@ -61,6 +61,7 @@ $(document).ready(function () {
         query: city,
       },
     }).then(function (response) {
+      console.log(response)
       //the key for the id is just "id" not "city_id"
       const city_id = response.location_suggestions[0].entity_id;
       //I think we might want to display the city and state as well so that the user can confirm that we are in the right location
@@ -83,17 +84,18 @@ $(document).ready(function () {
       },
       data: data,
     }).then(function (response) {
+      console.log(response)
       const restLat = response.restaurants[0].restaurant.location.latitude;
       const restLong = response.restaurants[0].restaurant.location.longitude;
 
-      for (let i = 0; i < response.restaurants.length; i++) {
+      $(".returnedRestaurants").html("") // clear previous results        
+      for (let i = 0; i < 10; i++) {
         const restName = response.restaurants[i].restaurant.name;
         const restFeaturedImage =
           response.restaurants[i].restaurant.featured_image;
         const restOpenTime = response.restaurants[i].restaurant.timings;
-        const restLat = response.restaurants[i].restaurant.location.latitude;
-        const restLong = response.restaurants[i].restaurant.location.longitude;
         const restAddress = response.restaurants[i].restaurant.location.address;
+        const restNumber = response.restaurants[i].restaurant.location.phone_numbers;
         const outdoorSeating = function () {
           if (
             response.restaurants[i].restaurant.highlights.includes(
@@ -105,16 +107,18 @@ $(document).ready(function () {
             return "Indoor Seating Only";
           }
         };
-
         const $restResult = `
         <div class="row d-flex justify-content-center">
-        <div class="col-11 restaurantInfo" data-toggle="modal" data-target="#business-venue-modal" data-index="0">
-          <p class="resName">restaurant name: ${restName}</p>
-          <p class="foodType">type of food: ${foodSearch}</p>
-          <p class="outdoor">outdoor seating? ${outdoorSeating()}</p>
-        </div>
-      </div>`;
+          <div class="col-11 restaurantInfo" data-toggle="modal" data-target="#business-venue-modal" data-index="0">
+            <p class="resName">restaurant name: ${restName}</p>
+            <p class="foodType">type of food: ${foodSearch}</p>
+            <p class="outdoor">outdoor seating? ${outdoorSeating()}</p>
+          </div>
+        </div>`;
         $(".returnedRestaurants").append($restResult);
+        $("#venue").text(restAddress)
+        $("#venueContactInfo").text(restNumber)
+
 
         // append necessary info in HTML format. Consider how many rest results we want to show
         // set values = necessary HTML elements
@@ -252,7 +256,7 @@ $(document).ready(function () {
       $(".date").text(displayDate);
       console.log(displayDate);
       let iconVal = response.current.weather[0].icon;
-      $("#icon").attr("src", `http://openweathermap.org/img/wn/${iconVal}.png`);
+      $(".icon").attr("src", `http://openweathermap.org/img/wn/${iconVal}.png`);
     });
   }
 
