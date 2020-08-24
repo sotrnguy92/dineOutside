@@ -29,33 +29,24 @@ $(document).ready(function () {
   const $historyItem = $(".history-item");
   const $historyList = $("#history-list");
 
-  let history = [];
-  let historyLocalKey = "dine-outside-history";
-  let getCities = JSON.parse(localStorage.getItem(historyLocalKey));
+  const history = [];
+  const historyLocalKey = "dine-outside-history";
+  const getCities = JSON.parse(localStorage.getItem(historyLocalKey));
 
   let today = moment().format("ddd, MMM DD, YYYY");
 
   // display current local time
   $today.text("TODAY: " + today);
 
+  // shift item in array to the end (latest)
+  function arrayMoveToEnd(id) {
+    // shift new search up
+    const searchHistory = JSON.parse(localStorage.getItem(historyLocalKey));
+    const target = searchHistory[id];
+    searchHistory.splice(id, 1);
+    searchHistory.push(target);
 
-  checkStorage();
-
-  // retrieve localStorage and populate left column if values are available
-  function checkStorage() {
-   console.log(getCities);
-    if (getCities) {
-      history = getCities;
-      for (let i = 0; i < history.length; i++) {
-        let $city = $("<li>");
-        let cityName = history[i].city;
-        let foodName = history[i].food;
-        $city.text(`${foodName} in ${cityName}`).addClass("history-item");
-        $city.attr("data-city-id", cityName);
-        $city.attr("data-food-id", foodName);
-        $("#history-list").prepend($city);
-      }
-    }
+    localStorage.setItem(historyLocalKey, JSON.stringify(searchHistory));
   }
 
   function callCityIDSearch(city, foodSearch) {
@@ -123,77 +114,6 @@ $(document).ready(function () {
     });
   }
 
-  // brings up modal info. clears and updaes
-  $("#business-venue-modal").on("shown.bs.modal", function (event) {
-    restID = $(event.relatedTarget).attr("data-index");
-
-    const data = {
-      res_id: restID,
-    };
-
-    // clear modal values
-    $(".venue-image-display").attr(
-      "src",
-      "https://via.placeholder.com/500x500"
-    );
-    $("#venueName").text("");
-    $("#about").text("");
-    $("#venueOpening").text("");
-    $("#venueAddress").text("");
-    $("#venueContactInfo").text("");
-    $("#venueCuisine").text("");
-    $("#venueDelivery").text("");
-    $("#venueReviews").text("");
-    $("#restaurantLink").attr("href", "#");
-
-    $.ajax({
-      url: urlRestSearch,
-      method: "GET",
-      headers: {
-        "user-key": "beddad251d06b8803b32610b0bf44218",
-      },
-      data: data,
-    }).then(function (response) {
-      let highlights = "";
-      response.highlights.forEach((element) => {
-        highlights += `${element}, `;
-      });
-
-      // update modal values
-      $(".venue-image-display").attr(
-        "src",
-        response.featured_image.replace('"', "")
-      );
-      $("#venueName").text(response.name);
-      $("#about").text(highlights.slice(0, -2));
-      $("#venueOpening").text(response.timings);
-      $("#venueAddress").text(response.location.address);
-      $("#venueContactInfo").text(response.phone_numbers);
-      $("#venueCuisine").text(response.cuisines);
-      $("#venueDelivery").text(response.is_delivering_now ? "Yes" : "No");
-      $("#venueReviews").text(response.user_rating.rating_text);
-      $("#restaurantLink").attr("href", response.url);
-    });
-  });
-
-  // $(document).on("click", ".userResults", function (event) {
-  //   cityName = event.target.getAttribute("data-city-id");
-  //   foodName = event.target.getAttribute("data-food-id");
-
-  //   callCityIDSearch(cityName, foodName); // call function passing along both variables
-  //   latLongPull(cityName);
-  // });
-
-  $("#history-list").on("click", function (e) {
-    if (e.target.matches(".history-item")) {
-      cityName = event.target.getAttribute("data-city-id");
-      foodName = event.target.getAttribute("data-food-id");
-
-      callCityIDSearch(cityName, foodName); // call function passing along both variables
-      latLongPull(cityName);
-    }
-  });
-
   function airQualityIndex(lat, long) {
     $localAQI.empty();
     let aqiURL =
@@ -240,6 +160,34 @@ $(document).ready(function () {
     });
   }
 
+  // called to load search information from title page if exists
+  function loadFromTitlePage() {
+    const params = new URLSearchParams(location.search);
+    const loc = params.get('location')
+    const food = params.get('food')
+    const isSearch = params.get('from_search')
+    if (loc && food && isSearch) {
+      callCityIDSearch(loc, food);
+      latLongPull(loc);
+      if (isSearch === 'true') {
+        appendSearch(loc, food);
+      }
+    }
+    this.history.replaceState(null, '', location.pathname);
+  }
+
+  function loadStorage() {
+    const localHist = JSON.parse(localStorage.getItem(historyLocalKey));
+    history.length = 0;
+    if (localHist) {
+      console.log(localHist);
+      localHist.forEach(item => {
+        // history.push(item);
+        appendSearch(item.city, item.food);
+      });
+    }
+  }
+
   // function called when submit is clicked. Takes in the city searched and the food that was searched, and appends the search to left aside
   function appendSearch(citySearch, foodSearch) {
     const $newHistoryItem = $historyItem.clone();
@@ -248,6 +196,7 @@ $(document).ready(function () {
     $newHistoryItem.removeAttr("hidden");
     $newHistoryItem.attr("data-city-id", citySearch);
     $newHistoryItem.attr("data-food-id", foodSearch);
+    $newHistoryItem.attr("data-index", history.length);
     $historyList.prepend($newHistoryItem);
 
     if ($historyList.children().length - 1 >= 10) {
@@ -258,13 +207,13 @@ $(document).ready(function () {
   }
 
   function appendToLocalStorage(data) {
+
     if (history.length >= 10) {
       history.shift();
     }
-
     history.push(data);
     localStorage.setItem(historyLocalKey, JSON.stringify(history));
-   
+
   }
 
   // Function is called when the search button is clicked, or a historical search is clicked. takes the location requested and runs an ajax request pulling the lat and long of the city. Then calls the weatherSearch function passing along lat and long.
@@ -336,7 +285,28 @@ $(document).ready(function () {
     }
   }
 
-  // ON __ EVENTS
+  $("#history-list").on("click", function (e) {
+    if (e.target.matches(".history-item")) {
+      const $item = $(e.target);
+      let cityName = event.target.getAttribute("data-city-id");
+      let foodName = event.target.getAttribute("data-food-id");
+      let id = event.target.getAttribute("data-index");
+
+      $item.addClass('animated bounceOutLeft').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
+        $item.removeClass('bounceOutLeft');
+        $item.remove();
+        $historyList.prepend($item);
+      })
+
+      
+      arrayMoveToEnd(id);
+
+
+      callCityIDSearch(cityName, foodName); // call function passing along both variables
+      latLongPull(cityName);
+    }
+  });
+
   // brings up modal info. clears and updates values with an AJAX request
   $("#business-venue-modal").on("shown.bs.modal", function (event) {
     restID = $(event.relatedTarget).attr("data-index");
@@ -348,7 +318,7 @@ $(document).ready(function () {
       "src",
       "https://via.placeholder.com/500x500"
     );
-    $("#venueName").text("");
+    $("#business-venue-name").text("");
     $("#about").text("");
     $("#venueOpening").text("");
     $("#venueAddress").text("");
@@ -376,7 +346,7 @@ $(document).ready(function () {
         "src",
         response.featured_image.replace('"', "")
       );
-      $("#venueName").text(response.name);
+      $("#business-venue-name").text(response.name);
       $("#about").text(highlights.slice(0, -2));
       $("#venueOpening").text(response.timings);
       $("#venueAddress").text(response.location.address);
@@ -402,15 +372,9 @@ $(document).ready(function () {
     $location.val(""); // resets search text after search
   });
 
-  // on clicking a previously saved search, targets the saved city and food ID's and then calls the function to pull that information back up
-  $(document).on("click", ".userResults", function (event) {
-  
-    cityName = event.target.getAttribute("data-city-id");
-    foodName = event.target.getAttribute("data-food-id");
-
-    callCityIDSearch(cityName, foodName);
-    latLongPull(cityName);
-  });
-
+  // load this last when page loads
+  // checkStorage();
+  loadStorage();
+  loadFromTitlePage();
   $historyItem.remove();
 });

@@ -1,0 +1,42 @@
+html {
+    background-color: #ea5455;
+}
+
+.container-fluid {
+    filter: none;
+}
+
+.main-body {
+    background-color: #ea5455;
+}
+
+.header-title {
+    font-family: 'Russo One', sans-serif;
+    color: black;
+    font-size: 50px;
+}
+
+.required-alert {
+    margin-left: 25%;
+}
+
+.search-history-table {
+    width: 50%;
+}
+
+.search-history-item {
+    background-color: #ec6667;
+}
+
+.search-history-item > td {
+    font-size: 24px;
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 36px!important;
+    }
+.header-pics {
+    height: 36px!important;
+    }    
+}
