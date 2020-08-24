@@ -260,6 +260,18 @@ $(document).ready(function () {
     }
   }
 
+  // called to load search information from title page if exists
+  function loadFromTitlePage(){
+    const params = new URLSearchParams(location.search);
+    const loc = params.get('location')
+    const food = params.get('food')
+    if (loc && food) {
+        callCityIDSearch(loc, food);
+        appendSearch(loc, food);
+        latLongPull(loc);
+    }
+  }
+
   // ON __ EVENTS
   // brings up modal info. clears and updates values with an AJAX request
   $("#business-venue-modal").on("shown.bs.modal", function (event) {
@@ -337,5 +349,8 @@ $(document).ready(function () {
     callCityIDSearch(cityName, foodName);
     latLongPull(cityName);
   });
+
+  // load this last when page loads
+  loadFromTitlePage();
   
 });

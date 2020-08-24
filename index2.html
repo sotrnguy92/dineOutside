@@ -30,15 +30,15 @@
 
 <body>
     <div class="main-body d-flex align-items-center justify-content-center flex-column container-fluid">
-        <div class="w-75">
-            <div class="app-name-container d-flex flex-row justify-content-center mb-5">
+        <div class="w-100">
+            <div class="app-name-container d-flex flex-row justify-content-center my-5">
                 <img class="header-pics mr-2" src="images/dinnerplate.png" />
-                <h1>Dine Outside </h1>
+                <h1 class="header-title">Dine Outside </h1>
                 <img class="header-pics ml-2" src="images/cityscape.png" />
             </div>
 
             <form action="index.html" method="GET" class="search-form d-flex flex-column align-items-center">
-                <div class="input-group mb-3 w-50">
+                <div class="input-group mb-3 w-75">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="basic-addon1"><img height="20px"
                                 alt="emoji of bowl with steam rising from git" src="images/hotbowl.png" /></span>
@@ -47,7 +47,7 @@
                         placeholder="Type of food or restaurant" aria-label="restaurant"
                         aria-describedby="basic-addon1">
                 </div>
-                <div class="input-group mb-3 w-50">
+                <div class="input-group mb-3 w-75">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="basic-addon2"><img height="20px" alt="emoji pin"
                                 src="images/pin.png" /></span>
@@ -58,12 +58,26 @@
                     </div>
                 </div>
                 <p class="required-alert text-warning align-self-start" hidden>* Required</p>
-                <button class="btn btn-md transparent py-0 w-50" type="submit" id="search-button-addon-sm"
+                <button class="btn btn-md transparent py-0 w-75" type="submit" id="search-button-addon-sm"
                     height="38px">
                     <img class="searchButton" alt="magnifying glass emoji" height="30px" src="images/magnifier.png" />
                 </button>
 
             </form>
+
+            <div class="my-5">
+                <form class="d-flex justify-content-center" action="#">
+                    <table class="d-flex justify-content-center mt-5 search-history-table">
+                        <tbody class="search-history-body w-100">
+                            <tr class="search-history-item d-none justify-content-center mb-2">
+                                <td class="d-flex justify-content-center w-100" data-food="ramen" data-loc="concord">
+                                    test
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
         </div>
     </div>
 
