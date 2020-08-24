@@ -41,7 +41,7 @@
             <form action="#" class="row-fluid col-md-6 input-group mb-3 d-flex flex-row justify-content-between">
                 <div class="col-sm-6 input-group">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon1"><img height="20px"
+                        <span class="input-group-text" id="basic-addon1"><img class="input-pics"
                                 alt="emoji of bowl with steam rising from git" src="images/hotbowl.png" /></span>
                     </div>
                     <input type="text" class="form-control typeOfFood" placeholder="Type of food or restaurant"
@@ -49,30 +49,29 @@
                 </div>
                 <div class="col-sm-6 input-group">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon2"><img height="20px" alt="emoji pin"
+                        <span class="input-group-text" id="basic-addon2"><img class="input-pics" alt="emoji pin"
                                 src="images/pin.png" /></span>
                     </div>
                     <input type="text" class="form-control location rounded" placeholder="city name"
                         aria-label="City Zip" aria-describedby="basic-addon2">
                     <div class="input-group-append input-group-append d-md-flex d-none">
-                        <button class="btn btn-md m-0 px-3 transparent py-0" type="submit" id="search-button-addon"
-                            height="38px">
-                            <img class="searchButton" alt="magnifying glass emoji" height="30px"
+                        <button class="btn btn-md m-0 px-3 transparent py-0" type="submit" id="search-button-addon">
+                            <img class="searchButton" alt="magnifying glass emoji" 
                                 src="images/magnifier.png" />
                         </button>
                     </div>
                 </div>
                 <button class="btn btn-md m-0 px-3 transparent py-0 w-100 mx-3 mt-1 d-md-none" type="submit"
-                    id="search-button-addon-sm" height="38px">
-                    <img class="searchButton" alt="magnifying glass emoji" height="30px" src="images/magnifier.png" />
+                    id="search-button-addon-sm">
+                    <img class="searchButton" alt="magnifying glass emoji" src="images/magnifier.png" />
                 </button>
 
             </form>
 
             <div class="col-md-6 d-flex flex-row justify-content-md-end justify-content-center">
-                <img class="header-pics mr-2" src="images/dinnerplate.png" />
+                <img alt="dinner plate emoji" class="header-pics mr-2" src="images/dinnerplate.png" />
                 <h1>Dine Outside </h1>
-                <img class="header-pics ml-2" src="images/cityscape.png" />
+                <img alt="city scape emoji" class="header-pics ml-2" src="images/cityscape.png" />
             </div>
         </header>
 
@@ -114,7 +113,7 @@
                     <div class="col-sm-11 weather d-flex flex-column align-items-center">
                         <p class="city"></p>
                         <p class="description"></p>
-                        <p><img class="icon" src="#" /></p>
+                        <p><img alt="current weather emoji" class="icon" src="#" /></p>
                         <p class="temperature"></p>
                         <p class="UVI"></p>
                         <p class="today"></p>
@@ -154,8 +153,7 @@
     </div>
 
     <!-- Modal: Set at the bottom of the page just right before the scripts tag -->
-    <div class="modal fade" id="business-venue-modal" tabindex="-1" role="dialog" aria-labelledby="business-venue-label"
-        aria-hidden="true">
+    <div class="modal fade" id="business-venue-modal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-fluid modal-dialog-scrollable modal-dialog-centered" role="document">
             <div class="modal-content rounded">
                 <div class="modal-header">
@@ -225,10 +223,10 @@
     <script src="https://code.jquery.com/jquery-3.5.1.js"
         integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
     <!-- Bootstrap core JavaScript -->
-    <script type="text/javascript"
+    <script
         src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
     <!-- MDB core JavaScript -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js">
     </script>
     <!-- moments -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>

@@ -18,7 +18,7 @@ h2 {
 
 /* header items */
 header {
-  background-color: #ea5455;
+  background-color: #EF2729;
   padding-top: 50px;
 }
 
@@ -31,6 +31,15 @@ h1 {
 .header-pics {
     height: 50px;
 }
+
+.input-pics {
+    height: 20px;
+}
+
+#search-button-addon-sm, #search-button-addon {
+    height: 38px;
+}
+
 
 @media (max-width: 768px) {
     h1 {
@@ -69,6 +78,7 @@ h1 {
 .searchButton {
     cursor: pointer;
     box-shadow: none;
+    height: 30px;
 }
 
 .searchButton:hover {
@@ -92,7 +102,7 @@ li {
 }
 
 li:hover {
-  background-color: #B7D3F7;
+  background-color: #F8D9DA;
 }
 
 .searchHistory {
@@ -117,12 +127,13 @@ li:hover {
 }
 
 .restaurantInfo:hover {
-    background-color: #CCDAEB;
+    background-color: #FFE7E7;
 }
 
 .resName {
     font-size: 20px;
     font-family: 'Kanit', sans-serif;
+    color: #EF2729;
 }
 
 /* right column */
@@ -211,12 +222,16 @@ li:hover {
 }
 
 .modal-header{
-    background-color: #ea5455;
+    background-color: #EF2729;
 }
 
 .search-history-item:hover{
     cursor: pointer;
     filter: drop-shadow(1px 2px 2px black);
+}
+
+.btn-secondary {
+    background-color: #EF2729;
 }
 
 @media (max-width: 740px) {
