@@ -7,7 +7,7 @@ $(document).ready(function () {
     const $historyBody = $('.search-history-body');
 
     function isStrValid(str){
-        return !/[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/g.test(str);
+        return !/[~`!#$%\^&*+=\-\(\)\[\]\\';,/{}|\\":<>\?]/g.test(str);
     }
 
     function loadSavedSearchesFromLocalStorage() {
