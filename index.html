@@ -32,15 +32,15 @@
     <div class="main-body d-flex align-items-center justify-content-center flex-column container-fluid">
         <div class="w-100">
             <div class="app-name-container d-flex flex-row justify-content-center my-5">
-                <img class="header-pics mr-2" src="images/dinnerplate.png" />
+                <img class="header-pics mr-2" alt="dinner plate emoji" src="images/dinnerplate.png" />
                 <h1 class="header-title">Dine Outside </h1>
-                <img class="header-pics ml-2" src="images/cityscape.png" />
+                <img class="header-pics ml-2" alt="city scape emoji" src="images/cityscape.png" />
             </div>
 
             <form action="main.html" method="GET" class="search-form d-flex flex-column align-items-center">
                 <div class="input-group mb-3 w-75">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon1"><img height="20px"
+                        <span class="input-group-text" id="basic-addon1"><img class="input-pics"
                                 alt="emoji of bowl with steam rising from git" src="images/hotbowl.png" /></span>
                     </div>
                     <input type="text" name="food" class="form-control typeOfFood"
@@ -49,19 +49,19 @@
                 </div>
                 <div class="input-group mb-3 w-75">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon2"><img height="20px" alt="emoji pin"
+                        <span class="input-group-text" id="basic-addon2"><img class="input-pics" alt="emoji pin"
                                 src="images/pin.png" /></span>
                     </div>
                     <input type="text" name="location" class="form-control location rounded"
-                        placeholder="City or ZIP code" aria-label="City Zip" aria-describedby="basic-addon2">
+                        placeholder="City name" aria-label="City Zip" aria-describedby="basic-addon2">
                     <div class="input-group-append input-group-append d-md-flex d-none">
                     </div>
                 </div>
                 <p class="required-alert text-warning align-self-start" hidden>* Required</p>
                 <p class="invalid-alert text-warning align-self-start" hidden>Input Invalid, Try again</p>
-                <button class="btn btn-md transparent py-0 w-75" type="submit" id="search-button-addon-sm"
-                    height="38px">
-                    <img class="searchButton" alt="magnifying glass emoji" height="30px" src="images/magnifier.png" />
+                <button class="btn btn-md transparent py-0 w-75" type="submit" id="search-button-addon-sm">
+                    <img class="searchButton" alt="magnifying glass emoji" src="images/magnifier.png" />
+
                 </button>
                 <input class="from-search" type="hidden" name="from_search" value="true">
             </form>
@@ -86,10 +86,9 @@
     <script src="https://code.jquery.com/jquery-3.5.1.js"
         integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
     <!-- Bootstrap core JavaScript -->
-    <script type="text/javascript"
-        src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
     <!-- MDB core JavaScript -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js">
     </script>
     <!-- moments -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>

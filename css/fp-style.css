@@ -1,5 +1,5 @@
 html {
-    background-color: #ea5455;
+    background-color: #EF2729;
 }
 
 .container-fluid {
@@ -7,12 +7,12 @@ html {
 }
 
 .main-body {
-    background-color: #ea5455;
+    background-color: #EF2729;
 }
 
 .header-title {
     font-family: 'Russo One', sans-serif;
-    color: black;
+    color: white;
     font-size: 50px;
 }
 
@@ -25,7 +25,8 @@ html {
 }
 
 .search-history-item {
-    background-color: #ec6667;
+    background-color: #F16D6E;
+    color: white;
 }
 
 .search-history-item > td {
