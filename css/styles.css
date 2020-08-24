@@ -24,7 +24,7 @@ header {
 
 h1 {
     font-family: 'Russo One', sans-serif;
-    color: black;
+    color: white;
     font-size: 50px;
 }
 
@@ -223,6 +223,7 @@ li:hover {
 
 .modal-header{
     background-color: #EF2729;
+    font-family: 'Kanit', sans-serif;
 }
 
 .search-history-item:hover{

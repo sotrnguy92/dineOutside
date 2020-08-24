@@ -12,7 +12,7 @@ html {
 
 .header-title {
     font-family: 'Russo One', sans-serif;
-    color: black;
+    color: white;
     font-size: 50px;
 }
 
@@ -26,6 +26,7 @@ html {
 
 .search-history-item {
     background-color: #F16D6E;
+    color: white;
 }
 
 .search-history-item > td {
