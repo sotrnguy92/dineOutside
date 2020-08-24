@@ -80,7 +80,7 @@ $(document).ready(function () {
     });
   }
 
-  // Function is called in the callCityIDSearch function. Takes in the cityID number and the food that was searched. Runs a different Zomato API request and pulls the lat/long saved as variables. It also pulls the first 10 restaurants that meet the search criteria, and displays key content on the middle section (returnedRestaurants) portion of the page. At the end of the funciton, it calls the airQualityIndex function passing along the lat/long variables. 
+  // Function is called in the callCityIDSearch function. Takes in the cityID number and the food that was searched. Runs a different Zomato API request and pulls the lat/long saved as variables. It also pulls the first 10 restaurants that meet the search criteria, and displays key content on the middle section (returnedRestaurants) portion of the page. 
   function callAjaxRestLookup(cityID, foodSearch) {
     const data = {
       q: foodSearch,
@@ -95,7 +95,6 @@ $(document).ready(function () {
       },
       data: data,
     }).then(function (response) {
-      console.log(response);
       const restLat = response.restaurants[0].restaurant.location.latitude;
       const restLong = response.restaurants[0].restaurant.location.longitude;
 
@@ -109,9 +108,9 @@ $(document).ready(function () {
               "Outdoor Seating"
             ) === true
           ) {
-            return "Outdoor Seating";
+            return "yes";
           } else {
-            return "Indoor Seating Only";
+            return "no";
           }
         };
         // clones result layout and make it visible then fill in the necessary details then append it to .returnedRestaurant class element
@@ -125,47 +124,126 @@ $(document).ready(function () {
           .attr("data-index", response.restaurants[i].restaurant.id);
         $returnedRestaurants.append(newSearchResult);
       }
-      airQualityIndex(restLat, restLong);
     });
   }
+  
+  // brings up modal info. clears and updaes
+  $("#business-venue-modal").on("shown.bs.modal", function (event) {
+    restID = $(event.relatedTarget).attr("data-index");
 
-  // function is called in the callAjaxRestLookup function. takes in a lat/long variable and updates the AQI values/widget.
-  function airQualityIndex(latitude, longitude) {
+    const data = {
+      res_id: restID,
+    };
+
+    // clear modal values
+    $(".venue-image-display").attr(
+      "src",
+      "https://via.placeholder.com/500x500"
+    );
+    $("#venueName").text("");
+    $("#about").text("");
+    $("#venueOpening").text("");
+    $("#venueAddress").text("");
+    $("#venueContactInfo").text("");
+    $("#venueCuisine").text("");
+    $("#venueDelivery").text("");
+    $("#venueReviews").text("");
+    $("#restaurantLink").attr("href", "#");
+
+    $.ajax({
+      url: urlRestSearch,
+      method: "GET",
+      headers: {
+        "user-key": "beddad251d06b8803b32610b0bf44218",
+      },
+      data: data,
+    }).then(function (response) {
+      let highlights = "";
+      response.highlights.forEach((element) => {
+        highlights += `${element}, `;
+      });
+
+      // update modal values
+      $(".venue-image-display").attr(
+        "src",
+        response.featured_image.replace('"', "")
+      );
+      $("#venueName").text(response.name);
+      $("#about").text(highlights.slice(0, -2));
+      $("#venueOpening").text(response.timings);
+      $("#venueAddress").text(response.location.address);
+      $("#venueContactInfo").text(response.phone_numbers);
+      $("#venueCuisine").text(response.cuisines);
+      $("#venueDelivery").text(response.is_delivering_now ? "Yes" : "No");
+      $("#venueReviews").text(response.user_rating.rating_text);
+      $("#restaurantLink").attr("href", response.url);
+
+
+    });
+  });
+
+  // for testing - calls the query search; would normally happen on line 57
+  // callCityIDSearch(citySearch,foodSearch) // to comment out
+  // need to add submit button on HTML. need to add LocVal input as well
+  $searchForm.on("submit", function (event) {
+    event.preventDefault();
+    let citySearch = $.trim($location.val()); // set dataCitySearch object query value to the value submitted
+    let foodSearch = $.trim($typeOfFood.val());
+
+    $typeOfFood.val("");
+    $location.val(""); // resets search text after search
+
+    callCityIDSearch(citySearch, foodSearch); // call function passing along both variables
+    latLongPull(citySearch);
+  });
+
+  $(document).on("click", ".userResults", function (event) {
+    cityName = event.target.getAttribute("data-city-id");
+    foodName = event.target.getAttribute("data-food-id");
+
+    callCityIDSearch(cityName, foodName); // call function passing along both variables
+    latLongPull(cityName);
+  });
+
+  function airQualityIndex(lat, long) {
+    $localAQI.empty();
     let aqiURL =
       "https://api.waqi.info/feed/geo:" +
-      latitude +
+      lat +
       ";" +
-      longitude +
+      long +
       "/?token=8323d177d676bcf5b5562025b17328fc56a804df";
 
     $.ajax({
       url: aqiURL,
       method: "GET",
     }).then(function (response) {
-      console.log(response);
       let AQI = response.data.aqi;
-      $localAQI.text(AQI);
-      // updates BG color based on value
-      if (AQI == undefined) {
-        $localAQI.text(`AQI: unknown for this location`);
+      let $displayAQI = $("<div>").addClass("displayAQI").text(AQI);
+      let $station = $("<div>").text("Closest station: " + response.data.city.name);
+      $localAQI.append($displayAQI, $station);
+
+      if (!AQI) {
+        let $station = $("<div>").text(`AQI: unknown for this location`);
+        $localAQI.append($station);
       } else {
         if (AQI <= 50) {
-          $localAQI.css("background-color", "green");
-          $localAQI.css("color", "white");
+          $displayAQI.css("background-color", "green");
+          $displayAQI.css("color", "white");
         } else if (AQI <= 100) {
-          $localAQI.css("background-color", "yellow");
-          $localAQI.css("color", "black");
+          $displayAQI.css("background-color", "yellow");
+          $displayAQI.css("color", "black");
         } else if (AQI <= 150) {
-          $localAQI.css("background-color", "orange");
+          $displayAQI.css("background-color", "orange");
         } else if (AQI <= 200) {
-          $localAQI.css("background-color", "red");
-          $localAQI.css("color", "white");
+          $displayAQI.css("background-color", "red");
+          $displayAQI.css("color", "white");
         } else if (AQI <= 300) {
-          $localAQI.css("background-color", "blueviolet");
-          $localAQI.css("color", "white");
+          $displayAQI.css("background-color", "blueviolet");
+          $displayAQI.css("color", "white");
         } else {
-          $localAQI.css("background-color", "maroon");
-          $localAQI.css("color", "white");
+          $displayAQI.css("background-color", "maroon");
+          $displayAQI.css("color", "white");
         }
       }
     });
@@ -206,6 +284,7 @@ $(document).ready(function () {
       let lat = response.coord.lat;
       let long = response.coord.lon;
       weatherSearch(lat, long);
+      airQualityIndex(lat, long);
     });
   }
 
@@ -218,6 +297,7 @@ $(document).ready(function () {
       url: queryURL,
       method: "GET",
     }).then(function (response) {
+      console.log("object below has weather info");
       console.log(response);
       // updates current info section with relevent data
       $description.text(response.daily[0].weather[0].description);
@@ -237,9 +317,10 @@ $(document).ready(function () {
         linuxUTC * 1000 + timeZone * 1000
       ).toDateString();
       $(".today").text(displayDate);
-      console.log(displayDate);
       let iconVal = response.current.weather[0].icon;
-      $icon.attr("src", `http://openweathermap.org/img/wn/${iconVal}.png`);
+
+      $(".icon").attr("src", `https://openweathermap.org/img/wn/${iconVal}.png`);
+
     });
   }
 
