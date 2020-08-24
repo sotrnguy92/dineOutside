@@ -230,8 +230,9 @@ li:hover {
     filter: drop-shadow(1px 2px 2px black);
 }
 
-.btn-secondary {
+.btn {
     background-color: #EF2729;
+    color: white;
 }
 
 @media (max-width: 740px) {
