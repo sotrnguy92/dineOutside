@@ -1,9 +1,9 @@
 $(document).ready(function () {
-  // VARIABLES 
+  // VARIABLES
   // image of magnifying glass that you can use as search button
   const $searchForm = $("form");
   // this is a UL element. append $("<li>") search results here
-  const $userList = $(".userList"); 
+  const $userList = $(".userList");
   // dynamically generate search history list here in list items
   // append all li this container: $searchHistory.append($userList);
   const $searchResult = $(".search-result");
@@ -29,6 +29,14 @@ $(document).ready(function () {
   const $returnedRestaurants = $(".returnedRestaurants");
   // display current local time
   const $today = $(".today");
+
+  // history item li
+  const $historyItem = $(".history-item");
+  const $historyList = $("#history-list");
+
+  const history = [];
+  const historyLocalKey = "dine-outside-history";
+
   let today = moment().format("ddd, MMM DD, YYYY");
 
   // display current local time
@@ -46,11 +54,11 @@ $(document).ready(function () {
   setCount();
 
   // Comment on function
-  function loadSavedSearches(){
-    for (let i=1; i< parseInt(localStorage.getItem('cityCount'))+1; i++){
+  function loadSavedSearches() {
+    for (let i = 1; i < parseInt(localStorage.getItem("cityCount")) + 1; i++) {
       let $city = $("<li>");
-      let cityName = localStorage.getItem('city'+i)
-      let foodName = localStorage.getItem('food'+i)
+      let cityName = localStorage.getItem("city" + i);
+      let foodName = localStorage.getItem("food" + i);
       $city.text(`${cityName}: ${foodName}`).addClass("userResults");
       $city.attr("data-city-id", cityName);
       $city.attr("data-food-id", foodName);
@@ -80,7 +88,7 @@ $(document).ready(function () {
     });
   }
 
-  // Function is called in the callCityIDSearch function. Takes in the cityID number and the food that was searched. Runs a different Zomato API request and pulls the lat/long saved as variables. It also pulls the first 10 restaurants that meet the search criteria, and displays key content on the middle section (returnedRestaurants) portion of the page. 
+  // Function is called in the callCityIDSearch function. Takes in the cityID number and the food that was searched. Runs a different Zomato API request and pulls the lat/long saved as variables. It also pulls the first 10 restaurants that meet the search criteria, and displays key content on the middle section (returnedRestaurants) portion of the page.
   function callAjaxRestLookup(cityID, foodSearch) {
     const data = {
       q: foodSearch,
@@ -126,7 +134,7 @@ $(document).ready(function () {
       }
     });
   }
-  
+
   // brings up modal info. clears and updaes
   $("#business-venue-modal").on("shown.bs.modal", function (event) {
     restID = $(event.relatedTarget).attr("data-index");
@@ -177,32 +185,25 @@ $(document).ready(function () {
       $("#venueDelivery").text(response.is_delivering_now ? "Yes" : "No");
       $("#venueReviews").text(response.user_rating.rating_text);
       $("#restaurantLink").attr("href", response.url);
-
-
     });
   });
 
-  // for testing - calls the query search; would normally happen on line 57
-  // callCityIDSearch(citySearch,foodSearch) // to comment out
-  // need to add submit button on HTML. need to add LocVal input as well
-  $searchForm.on("submit", function (event) {
-    event.preventDefault();
-    let citySearch = $.trim($location.val()); // set dataCitySearch object query value to the value submitted
-    let foodSearch = $.trim($typeOfFood.val());
+  // $(document).on("click", ".userResults", function (event) {
+  //   cityName = event.target.getAttribute("data-city-id");
+  //   foodName = event.target.getAttribute("data-food-id");
 
-    $typeOfFood.val("");
-    $location.val(""); // resets search text after search
+  //   callCityIDSearch(cityName, foodName); // call function passing along both variables
+  //   latLongPull(cityName);
+  // });
 
-    callCityIDSearch(citySearch, foodSearch); // call function passing along both variables
-    latLongPull(citySearch);
-  });
+  $("#history-list").on("click", function (e) {
+    if (e.target.matches(".history-item")) {
+      cityName = event.target.getAttribute("data-city-id");
+      foodName = event.target.getAttribute("data-food-id");
 
-  $(document).on("click", ".userResults", function (event) {
-    cityName = event.target.getAttribute("data-city-id");
-    foodName = event.target.getAttribute("data-food-id");
-
-    callCityIDSearch(cityName, foodName); // call function passing along both variables
-    latLongPull(cityName);
+      callCityIDSearch(cityName, foodName); // call function passing along both variables
+      latLongPull(cityName);
+    }
   });
 
   function airQualityIndex(lat, long) {
@@ -220,7 +221,9 @@ $(document).ready(function () {
     }).then(function (response) {
       let AQI = response.data.aqi;
       let $displayAQI = $("<div>").addClass("displayAQI").text(AQI);
-      let $station = $("<div>").text("Closest station: " + response.data.city.name);
+      let $station = $("<div>").text(
+        "Closest station: " + response.data.city.name
+      );
       $localAQI.append($displayAQI, $station);
 
       if (!AQI) {
@@ -251,28 +254,32 @@ $(document).ready(function () {
 
   // function called when submit is clicked. Takes in the city searched and the food that was searched, and appends the search to left aside
   function appendSearch(citySearch, foodSearch) {
-    if (cityCount > 9) {
-      alert(
-        "Can only hold 10 searches. Please refresh the paage to add new ones"
-      );
-      return;
-    } else {
-      let $city = $("<li>");
-      $city.text(`${citySearch}: ${foodSearch}`).addClass("userResults");
-      $city.attr("data-city-id", citySearch);
-      $city.attr("data-food-id", foodSearch);
-      $(".userList").append($city);
-      cityCount++;
-      // searchHistory.push(location.toLowerCase()) array or object with previous searches to make sure we don't append repeat searches
+    const $newHistoryItem = $historyItem.clone();
 
-      //add search to local storage
-      localStorage.setItem("city" + cityCount, citySearch); // store searched item to LS to add back in later
-      localStorage.setItem("food" + cityCount, foodSearch); // store searched item to LS to add back in later
-      localStorage.setItem("cityCount", cityCount); // store searched item to LS to add back in later
+    $newHistoryItem.text(`${foodSearch} in ${citySearch}`);
+    $newHistoryItem.removeAttr("hidden");
+    $newHistoryItem.attr("data-city-id", citySearch);
+    $newHistoryItem.attr("data-food-id", foodSearch);
+    $historyList.prepend($newHistoryItem);
+
+    if ($historyList.children().length - 1 >= 10) {
+      $historyList.children().last().remove();
     }
+
+    appendToLocalStorage({ city: citySearch, food: foodSearch });
   }
-  
-  // Function is called when the search button is clicked, or a historical search is clicked. takes the location requested and runs an ajax request pulling the lat and long of the city. Then calls the weatherSearch function passing along lat and long. 
+
+  function appendToLocalStorage(data) {
+    if (history.length >= 10) {
+      history.shift();
+    }
+
+    history.push(data);
+    localStorage.setItem(historyLocalKey, JSON.stringify(history));
+    console.log(localStorage.getItem(historyLocalKey));
+  }
+
+  // Function is called when the search button is clicked, or a historical search is clicked. takes the location requested and runs an ajax request pulling the lat and long of the city. Then calls the weatherSearch function passing along lat and long.
   function latLongPull(location) {
     // Here we are building the URL we need to query the database
     let queryURL = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${weatherAPIKey}`;
@@ -319,8 +326,10 @@ $(document).ready(function () {
       $(".today").text(displayDate);
       let iconVal = response.current.weather[0].icon;
 
-      $(".icon").attr("src", `https://openweathermap.org/img/wn/${iconVal}.png`);
-
+      $(".icon").attr(
+        "src",
+        `https://openweathermap.org/img/wn/${iconVal}.png`
+      );
     });
   }
 
@@ -342,20 +351,38 @@ $(document).ready(function () {
   }
 
   // called to load search information from title page if exists
-  function loadFromTitlePage(){
+  function loadFromTitlePage() {
     const params = new URLSearchParams(location.search);
     const loc = params.get('location')
     const food = params.get('food')
     if (loc && food) {
-        callCityIDSearch(loc, food);
-        appendSearch(loc, food);
-        latLongPull(loc);
+      callCityIDSearch(loc, food);
+      appendSearch(loc, food);
+      latLongPull(loc);
+    }
+    this.history.replaceState(null, '', location.pathname);
+  }
+
+  function loadStorage() {
+    const localHist = localStorage.getItem(historyLocalKey);
+    const histArr = JSON.parse(localHist);
+
+    if (localHist) {
+      for (let i = 0; i < histArr.length; i++) {
+        const $newHistoryItem = $historyItem.clone();
+        history.push(histArr[i]);
+        $newHistoryItem.text(`${histArr[i].food} in ${histArr[i].city}`);
+        $newHistoryItem.removeAttr("hidden");
+        $newHistoryItem.attr("data-city-id", histArr[i].city);
+        $newHistoryItem.attr("data-food-id", histArr[i].food);
+        $historyList.prepend($newHistoryItem);
+      }
     }
   }
 
   // ON __ EVENTS
   // brings up modal info. clears and updates values with an AJAX request
-  $("#business-venue-modal").on("shown.bs.modal", function (event) {
+  $("#business-venue-modal").on("show.bs.modal", function (event) {
     restID = $(event.relatedTarget).attr("data-index");
     const data = {
       res_id: restID,
@@ -365,7 +392,7 @@ $(document).ready(function () {
       "src",
       "https://via.placeholder.com/500x500"
     );
-    $("#venueName").text("");
+    $("#business-venue-name").text("");
     $("#about").text("");
     $("#venueOpening").text("");
     $("#venueAddress").text("");
@@ -394,7 +421,7 @@ $(document).ready(function () {
         "src",
         response.featured_image.replace('"', "")
       );
-      $("#venueName").text(response.name);
+      $("#business-venue-name").text(response.name);
       $("#about").text(highlights.slice(0, -2));
       $("#venueOpening").text(response.timings);
       $("#venueAddress").text(response.location.address);
@@ -409,29 +436,19 @@ $(document).ready(function () {
   // on clicking the submit button, saves the searched values and calls a variety of functions with those variables.
   $searchForm.on("submit", function (event) {
     event.preventDefault();
-    let citySearch = $location.val(); // set dataCitySearch object query value to the value submitted
-    let foodSearch = $typeOfFood.val();
-
-    $typeOfFood.val("");
-    $location.val(""); // resets search text after search
+    let citySearch = $.trim($location.val()); // set dataCitySearch object query value to the value submitted
+    let foodSearch = $.trim($typeOfFood.val());
 
     callCityIDSearch(citySearch, foodSearch); // call function passing along both variables
     appendSearch(citySearch, foodSearch);
     latLongPull(citySearch);
-  });
 
-  // on clicking a previously saved search, targets the saved city and food ID's and then calls the function to pull that information back up 
-  $(document).on("click", ".userResults", function (event) {
-    console.log(event.target.getAttribute("data-city-id"));
-    cityName = event.target.getAttribute("data-city-id");
-    console.log(event.target.getAttribute("data-food-id"));
-    foodName = event.target.getAttribute("data-food-id");
-
-    callCityIDSearch(cityName, foodName);
-    latLongPull(cityName);
+    $typeOfFood.val("");
+    $location.val(""); // resets search text after search
   });
 
   // load this last when page loads
+  loadStorage();
   loadFromTitlePage();
-  
+  $historyItem.remove();
 });

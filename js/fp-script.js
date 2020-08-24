@@ -1,15 +1,18 @@
 $(document).ready(function () {
+    const historyLocalKey = "dine-outside-history";
+
     const $requiredAlert = $('.required-alert');
     const $historyItem = $('.search-history-item');
     const $historyBody = $('.search-history-body');
 
     function loadSavedSearchesFromLocalStorage() {
         const history = [];
-        for (let i = 1; i < parseInt(localStorage.getItem('cityCount')) + 1; i++) {
-            let cityName = localStorage.getItem('city' + i)
-            let foodName = localStorage.getItem('food' + i)
+        const localHistory = JSON.parse(localStorage.getItem(historyLocalKey));
+        localHistory.forEach(item => {
+            let cityName = item.city;
+            let foodName = item.food;
             history.push({ city: cityName, food: foodName });
-        }
+        });
         return history;
     }
 
