@@ -1,4 +1,4 @@
-// $(document).ready(function () {
+$(document).ready(function () {
 const $requiredAlert = $('.required-alert');
 
 $('.search-form').on('submit', function (event) {
@@ -16,4 +16,4 @@ $('.search-form').on('submit', function (event) {
     }
 
 });
-// });
+});
