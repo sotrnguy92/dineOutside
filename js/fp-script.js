@@ -2,8 +2,13 @@ $(document).ready(function () {
     const historyLocalKey = "dine-outside-history";
 
     const $requiredAlert = $('.required-alert');
+    const $invalidAlert = $('.invalid-alert');
     const $historyItem = $('.search-history-item');
     const $historyBody = $('.search-history-body');
+
+    function isStrValid(str){
+        return !/[~`!#$%\^&*+=\-\(\)\[\]\\';,/{}|\\":<>\?]/g.test(str);
+    }
 
     function loadSavedSearchesFromLocalStorage() {
         const history = [];
@@ -42,18 +47,29 @@ $(document).ready(function () {
         localStorage.setItem(historyLocalKey, JSON.stringify(searchHistory));
     }
 
+    function shakeElement(element){
+        $(element).addClass('animated heartBeat fast').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
+            $(this).removeClass('animated heartBeat fast');
+        });
+    }
+
 
     $('.search-form').on('submit', function (event) {
         event.preventDefault();
         const $foodInput = $('.typeOfFood')[0].value;
         const $locInput = $('.location')[0].value;
 
+        $requiredAlert.attr('hidden', '');
+        $invalidAlert.attr('hidden', '');
+
+
         if (!$foodInput || !$locInput) {
             $requiredAlert.removeAttr('hidden');
-            $(event.target).addClass('animated heartBeat fast').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
-                $(this).removeClass('animated heartBeat fast');
-            });
-        } else {
+            shakeElement(event.target);
+        } else if (!isStrValid($foodInput) || !isStrValid($locInput)){    
+            $invalidAlert.removeAttr('hidden');
+            shakeElement(event.target);
+        }else {
             event.target.submit();
         }
 

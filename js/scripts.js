@@ -43,6 +43,11 @@ $(document).ready(function () {
   // spinner
   const spinnerLoader = $('.spinner-loader');
 
+  // Test string for validity, add more characters between !/ and /g to restrict more characters
+  function isStrValid(str) {
+    return !/[~`!#$%\^&*+=\-\(\)\[\]\\';,/{}|\\":<>\?]/g.test(str);
+  }
+
   // shift item in array to the end (latest)
   function arrayMoveToEnd(id) {
     // shift new search up
@@ -69,6 +74,9 @@ $(document).ready(function () {
       //I think we might want to display the city and state as well so that the user can confirm that we are in the right location
       const city_name = response.location_suggestions[0].title;
       callAjaxRestLookup(city_id, foodSearch);
+    }).fail(function () {
+      $returnedRestaurants.html("No Results Found");  // display no result
+      return;                                         // end the function
     });
   }
 
@@ -94,7 +102,7 @@ $(document).ready(function () {
 
       $returnedRestaurants.html(""); // remove spinner
 
-      if (response.restaurants.length < 1){
+      if (response.restaurants.length < 1) {
         $returnedRestaurants.html("No Results Found");  // display no result
         return;                                         // end the function
       }
@@ -363,8 +371,8 @@ $(document).ready(function () {
         highlights += `${element}, `;
       });
       // update modal values
-      !response.featured_image? $(".venue-image-display").attr("src", photoComingSoonSrc) :
-      $(".venue-image-display").attr("src",response.featured_image.replace('"', ""))
+      !response.featured_image ? $(".venue-image-display").attr("src", photoComingSoonSrc) :
+        $(".venue-image-display").attr("src", response.featured_image.replace('"', ""))
 
       $("#business-venue-name").text(response.name);
       $("#about").text(highlights.slice(0, -2));
@@ -383,6 +391,11 @@ $(document).ready(function () {
     event.preventDefault();
     let citySearch = $.trim($location.val()); // set dataCitySearch object query value to the value submitted
     let foodSearch = $.trim($typeOfFood.val());
+
+    if (!isStrValid(citySearch) || !isStrValid(foodSearch)) {
+      alert('Input invalid, try again');
+      return;
+    }
 
     callCityIDSearch(citySearch, foodSearch); // call function passing along both variables
     appendSearch(citySearch, foodSearch);

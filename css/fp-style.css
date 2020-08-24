@@ -16,8 +16,8 @@ html {
     font-size: 50px;
 }
 
-.required-alert {
-    margin-left: 25%;
+.required-alert, .invalid-alert {
+    margin-left: 13%;
 }
 
 .search-history-table {
