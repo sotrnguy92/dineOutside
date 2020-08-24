@@ -29,9 +29,9 @@ $(document).ready(function () {
   const $historyItem = $(".history-item");
   const $historyList = $("#history-list");
 
-  let history = [];
-  let historyLocalKey = "dine-outside-history";
-  let getCities = JSON.parse(localStorage.getItem(historyLocalKey));
+  const history = [];
+  const historyLocalKey = "dine-outside-history";
+  const getCities = JSON.parse(localStorage.getItem(historyLocalKey));
 
   let today = moment().format("ddd, MMM DD, YYYY");
 
@@ -120,16 +120,6 @@ $(document).ready(function () {
     });
   }
 
-  $("#history-list").on("click", function (e) {
-    if (e.target.matches(".history-item")) {
-      cityName = event.target.getAttribute("data-city-id");
-      foodName = event.target.getAttribute("data-food-id");
-
-      callCityIDSearch(cityName, foodName); // call function passing along both variables
-      latLongPull(cityName);
-    }
-  });
-
   function airQualityIndex(lat, long) {
     $localAQI.empty();
     let aqiURL =
@@ -190,19 +180,14 @@ $(document).ready(function () {
   }
 
   function loadStorage() {
-    const localHist = localStorage.getItem(historyLocalKey);
-    const histArr = JSON.parse(localHist);
-
+    const localHist = JSON.parse(localStorage.getItem(historyLocalKey));
+    history.length = 0;
     if (localHist) {
-      for (let i = 0; i < histArr.length; i++) {
-        const $newHistoryItem = $historyItem.clone();
-        history.push(histArr[i]);
-        $newHistoryItem.text(`${histArr[i].food} in ${histArr[i].city}`);
-        $newHistoryItem.removeAttr("hidden");
-        $newHistoryItem.attr("data-city-id", histArr[i].city);
-        $newHistoryItem.attr("data-food-id", histArr[i].food);
-        $historyList.prepend($newHistoryItem);
-      }
+      console.log(localHist);
+      localHist.forEach(item => {
+        // history.push(item);
+        appendSearch(item.city, item.food);
+      });
     }
   }
 
@@ -224,10 +209,10 @@ $(document).ready(function () {
   }
 
   function appendToLocalStorage(data) {
+    
     if (history.length >= 10) {
       history.shift();
     }
-
     history.push(data);
     localStorage.setItem(historyLocalKey, JSON.stringify(history));
 
@@ -302,14 +287,13 @@ $(document).ready(function () {
     }
   }
 
-  // ON __ EVENTS
   $("#history-list").on("click", function (e) {
     if (e.target.matches(".history-item")) {
       cityName = event.target.getAttribute("data-city-id");
       foodName = event.target.getAttribute("data-food-id");
 
       callCityIDSearch(cityName, foodName); // call function passing along both variables
-      // latLongPull(cityName);
+      latLongPull(cityName);
     }
   });
 
@@ -379,7 +363,7 @@ $(document).ready(function () {
   });
 
   // load this last when page loads
-  checkStorage();
+  // checkStorage();
   loadStorage();
   loadFromTitlePage();
   $historyItem.remove();
