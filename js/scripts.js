@@ -91,7 +91,7 @@ $(document).ready(function () {
       const restLat = response.restaurants[0].restaurant.location.latitude;
       const restLong = response.restaurants[0].restaurant.location.longitude;
 
-
+      $returnedRestaurants.html(""); // remove spinner
       // limited to 10 results
       for (let i = 0; i < 10; i++) {
         const restName = response.restaurants[i].restaurant.name;
@@ -115,7 +115,6 @@ $(document).ready(function () {
         newSearchResult
           .find(".restaurantInfo")
           .attr("data-index", response.restaurants[i].restaurant.id);
-        $returnedRestaurants.html(""); // remove spinner
         $returnedRestaurants.append(newSearchResult);
       }
     });
