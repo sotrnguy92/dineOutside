@@ -80,7 +80,6 @@ $(document).ready(function () {
         query: city,
       },
     }).then(function (response) {
-      console.log(response);
       //the key for the id is just "id" not "city_id"
       const city_id = response.location_suggestions[0].entity_id;
       //I think we might want to display the city and state as well so that the user can confirm that we are in the right location
@@ -103,7 +102,6 @@ $(document).ready(function () {
       },
       data: data,
     }).then(function (response) {
-      console.log(response);
       const restLat = response.restaurants[0].restaurant.location.latitude;
       const restLong = response.restaurants[0].restaurant.location.longitude;
 
@@ -116,9 +114,9 @@ $(document).ready(function () {
               "Outdoor Seating"
             ) === true
           ) {
-            return "Outdoor Seating";
+            return "yes";
           } else {
-            return "Indoor Seating Only";
+            return "no";
           }
         };
         // clones result layout and make it visible then fill in the necessary details then append it to .returnedRestaurant class element
@@ -132,7 +130,7 @@ $(document).ready(function () {
           .attr("data-index", response.restaurants[i].restaurant.id);
         $(".returnedRestaurants").append(newSearchResult);
       }
-      airQualityIndex(restLat, restLong);
+      // airQualityIndex(restLat, restLong);
     });
   }
 
@@ -167,7 +165,6 @@ $(document).ready(function () {
       },
       data: data,
     }).then(function (response) {
-      console.log(response);
       let highlights = "";
       response.highlights.forEach((element) => {
         highlights += `${element}, `;
@@ -197,86 +194,66 @@ $(document).ready(function () {
   // need to add submit button on HTML. need to add LocVal input as well
   $searchForm.on("submit", function (event) {
     event.preventDefault();
-    let citySearch = $location.val(); // set dataCitySearch object query value to the value submitted
-    let foodSearch = $typeOfFood.val();
+    let citySearch = $.trim($location.val()); // set dataCitySearch object query value to the value submitted
+    let foodSearch = $.trim($typeOfFood.val());
 
     $typeOfFood.val("");
     $location.val(""); // resets search text after search
 
     callCityIDSearch(citySearch, foodSearch); // call function passing along both variables
-    appendSearch(citySearch, foodSearch);
     latLongPull(citySearch);
   });
 
-  // function to append to left aside
-  function appendSearch(citySearch, foodSearch) {
-    if (cityCount > 9) {
-      alert(
-        "Can only hold 10 searches. Please refresh the paage to add new ones"
-      );
-      return;
-    } else {
-      let $city = $("<li>");
-      $city.text(`${citySearch}: ${foodSearch}`).addClass("userResults");
-      $city.attr("data-city-id", citySearch);
-      $city.attr("data-food-id", foodSearch);
-      $(".userList").append($city);
-      cityCount++;
-      // searchHistory.push(location.toLowerCase()) array or object with previous searches to make sure we don't append repeat searches
-
-      //add search to local storage
-      localStorage.setItem("city" + cityCount, citySearch); // store searched item to LS to add back in later
-      localStorage.setItem("food" + cityCount, foodSearch); // store searched item to LS to add back in later
-      localStorage.setItem("cityCount", cityCount); // store searched item to LS to add back in later
-    }
-  }
-
   $(document).on("click", ".userResults", function (event) {
-    console.log(event.target.getAttribute("data-city-id"));
     cityName = event.target.getAttribute("data-city-id");
-    console.log(event.target.getAttribute("data-food-id"));
     foodName = event.target.getAttribute("data-food-id");
 
     callCityIDSearch(cityName, foodName); // call function passing along both variables
     latLongPull(cityName);
   });
 
-  function airQualityIndex(latitude, longitude) {
+  function airQualityIndex(lat, long) {
+    $localAQI.empty();
+    console.log("HELLO!" + lat, long);
     let aqiURL =
       "https://api.waqi.info/feed/geo:" +
-      latitude +
+      lat +
       ";" +
-      longitude +
+      long +
       "/?token=8323d177d676bcf5b5562025b17328fc56a804df";
 
     $.ajax({
       url: aqiURL,
       method: "GET",
     }).then(function (response) {
-      console.log(response);
       let AQI = response.data.aqi;
-      $localAQI.text(AQI);
+      console.log(response);
+      let $displayAQI = $("<div>").addClass("displayAQI").text(AQI);
+      let $station = $("<div>").text("Closest station: " + response.data.city.name);
+      $localAQI.append($displayAQI, $station);
+      $localAQI.append($station);
 
-      if (AQI == undefined) {
-        $localAQI.text(`AQI: unknown for this location`);
+      if (!AQI) {
+        let $station = $("<div>").text(`AQI: unknown for this location`);
+        $localAQI.append($station);
       } else {
         if (AQI <= 50) {
-          $localAQI.css("background-color", "green");
-          $localAQI.css("color", "white");
+          $displayAQI.css("background-color", "green");
+          $displayAQI.css("color", "white");
         } else if (AQI <= 100) {
-          $localAQI.css("background-color", "yellow");
-          $localAQI.css("color", "black");
+          $displayAQI.css("background-color", "yellow");
+          $displayAQI.css("color", "black");
         } else if (AQI <= 150) {
-          $localAQI.css("background-color", "orange");
+          $displayAQI.css("background-color", "orange");
         } else if (AQI <= 200) {
-          $localAQI.css("background-color", "red");
-          $localAQI.css("color", "white");
+          $displayAQI.css("background-color", "red");
+          $displayAQI.css("color", "white");
         } else if (AQI <= 300) {
-          $localAQI.css("background-color", "blueviolet");
-          $localAQI.css("color", "white");
+          $displayAQI.css("background-color", "blueviolet");
+          $displayAQI.css("color", "white");
         } else {
-          $localAQI.css("background-color", "maroon");
-          $localAQI.css("color", "white");
+          $displayAQI.css("background-color", "maroon");
+          $displayAQI.css("color", "white");
         }
       }
     });
@@ -300,6 +277,7 @@ $(document).ready(function () {
       let lat = response.coord.lat;
       let long = response.coord.lon;
       weatherSearch(lat, long);
+      airQualityIndex(lat, long);
     });
   }
 
@@ -312,6 +290,7 @@ $(document).ready(function () {
       url: queryURL,
       method: "GET",
     }).then(function (response) {
+      console.log("object below has weather info");
       console.log(response);
       // updates current info section with relevent data
       $description.text(response.daily[0].weather[0].description);
@@ -332,9 +311,8 @@ $(document).ready(function () {
         linuxUTC * 1000 + timeZone * 1000
       ).toDateString();
       $(".today").text(displayDate);
-      console.log(displayDate);
       let iconVal = response.current.weather[0].icon;
-      $(".icon").attr("src", `http://openweathermap.org/img/wn/${iconVal}.png`);
+      $(".icon").attr("src", `https://openweathermap.org/img/wn/${iconVal}.png`);
     });
   }
 
