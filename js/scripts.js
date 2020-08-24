@@ -3,9 +3,6 @@ $(document).ready(function () {
   // image of magnifying glass that you can use as search button
   const $searchForm = $("form");
   // this is a UL element. append $("<li>") search results here
-  const $userList = $(".userList");
-  // dynamically generate search history list here in list items
-  // append all li this container: $searchHistory.append($userList);
   const $searchResult = $(".search-result");
   // input field asking for type of food or restaurant
   const $typeOfFood = $(".typeOfFood");
@@ -21,8 +18,6 @@ $(document).ready(function () {
   const urlLocationSearch = "https://developers.zomato.com/api/v2.1/locations";
   const urlQuerySearch = "https://developers.zomato.com/api/v2.1/search";
   const urlRestSearch = "https://developers.zomato.com/api/v2.1/restaurant";
-  // Variable to help moderate number of results
-  let cityCount = 0;
   // you can empty this out every time the user searches for a new city. For adding contents to the AQI function
   const $localAQI = $(".localAQI");
   // parent container on center of page for returned restaurants
@@ -34,42 +29,32 @@ $(document).ready(function () {
   const $historyItem = $(".history-item");
   const $historyList = $("#history-list");
 
-  const history = [];
-  const historyLocalKey = "dine-outside-history";
+  let history = [];
+  let historyLocalKey = "dine-outside-history";
+  let getCities = JSON.parse(localStorage.getItem(historyLocalKey));
 
   let today = moment().format("ddd, MMM DD, YYYY");
 
   // display current local time
   $today.text("TODAY: " + today);
 
-  // FUNCTIONS
-  // sets the city count to the local storage value
-  function setCount() {
-    if (parseInt(localStorage.getItem("cityCount"))) {
-      cityCount = parseInt(localStorage.getItem("cityCount"));
+  // retrieve localStorage and populate left column if values are available
+  function checkStorage() {
+    console.log(getCities);
+    if (getCities) {
+      history = getCities;
+      for (let i = 0; i < history.length; i++) {
+        let $city = $("<li>");
+        let cityName = history[i].city;
+        let foodName = history[i].food;
+        $city.text(`${foodName} in ${cityName}`).addClass("history-item");
+        $city.attr("data-city-id", cityName);
+        $city.attr("data-food-id", foodName);
+        $("#history-list").prepend($city);
+      }
     }
   }
 
-  // call setCount
-  setCount();
-
-  // Comment on function
-  function loadSavedSearches() {
-    for (let i = 1; i < parseInt(localStorage.getItem("cityCount")) + 1; i++) {
-      let $city = $("<li>");
-      let cityName = localStorage.getItem("city" + i);
-      let foodName = localStorage.getItem("food" + i);
-      $city.text(`${cityName}: ${foodName}`).addClass("userResults");
-      $city.attr("data-city-id", cityName);
-      $city.attr("data-food-id", foodName);
-      $userList.append($city);
-    }
-  }
-
-  // call loadSavedSearches
-  loadSavedSearches();
-
-  // Funciton is called when the submit button is clicked or when a historical search is clicked. Takes in the searched city and food item. Runs Zomato API request and pulls the city ID. Then calls the AJAX Restaurant Lookup function, passing along the ID, and the food type that was searched.
   function callCityIDSearch(city, foodSearch) {
     $.ajax({
       url: urlLocationSearch,
@@ -135,67 +120,6 @@ $(document).ready(function () {
     });
   }
 
-  // brings up modal info. clears and updaes
-  $("#business-venue-modal").on("shown.bs.modal", function (event) {
-    restID = $(event.relatedTarget).attr("data-index");
-
-    const data = {
-      res_id: restID,
-    };
-
-    // clear modal values
-    $(".venue-image-display").attr(
-      "src",
-      "https://via.placeholder.com/500x500"
-    );
-    $("#venueName").text("");
-    $("#about").text("");
-    $("#venueOpening").text("");
-    $("#venueAddress").text("");
-    $("#venueContactInfo").text("");
-    $("#venueCuisine").text("");
-    $("#venueDelivery").text("");
-    $("#venueReviews").text("");
-    $("#restaurantLink").attr("href", "#");
-
-    $.ajax({
-      url: urlRestSearch,
-      method: "GET",
-      headers: {
-        "user-key": "beddad251d06b8803b32610b0bf44218",
-      },
-      data: data,
-    }).then(function (response) {
-      let highlights = "";
-      response.highlights.forEach((element) => {
-        highlights += `${element}, `;
-      });
-
-      // update modal values
-      $(".venue-image-display").attr(
-        "src",
-        response.featured_image.replace('"', "")
-      );
-      $("#venueName").text(response.name);
-      $("#about").text(highlights.slice(0, -2));
-      $("#venueOpening").text(response.timings);
-      $("#venueAddress").text(response.location.address);
-      $("#venueContactInfo").text(response.phone_numbers);
-      $("#venueCuisine").text(response.cuisines);
-      $("#venueDelivery").text(response.is_delivering_now ? "Yes" : "No");
-      $("#venueReviews").text(response.user_rating.rating_text);
-      $("#restaurantLink").attr("href", response.url);
-    });
-  });
-
-  // $(document).on("click", ".userResults", function (event) {
-  //   cityName = event.target.getAttribute("data-city-id");
-  //   foodName = event.target.getAttribute("data-food-id");
-
-  //   callCityIDSearch(cityName, foodName); // call function passing along both variables
-  //   latLongPull(cityName);
-  // });
-
   $("#history-list").on("click", function (e) {
     if (e.target.matches(".history-item")) {
       cityName = event.target.getAttribute("data-city-id");
@@ -252,6 +176,36 @@ $(document).ready(function () {
     });
   }
 
+  // called to load search information from title page if exists
+  function loadFromTitlePage() {
+    const params = new URLSearchParams(location.search);
+    const loc = params.get('location')
+    const food = params.get('food')
+    if (loc && food) {
+      callCityIDSearch(loc, food);
+      appendSearch(loc, food);
+      latLongPull(loc);
+    }
+    this.history.replaceState(null, '', location.pathname);
+  }
+
+  function loadStorage() {
+    const localHist = localStorage.getItem(historyLocalKey);
+    const histArr = JSON.parse(localHist);
+
+    if (localHist) {
+      for (let i = 0; i < histArr.length; i++) {
+        const $newHistoryItem = $historyItem.clone();
+        history.push(histArr[i]);
+        $newHistoryItem.text(`${histArr[i].food} in ${histArr[i].city}`);
+        $newHistoryItem.removeAttr("hidden");
+        $newHistoryItem.attr("data-city-id", histArr[i].city);
+        $newHistoryItem.attr("data-food-id", histArr[i].food);
+        $historyList.prepend($newHistoryItem);
+      }
+    }
+  }
+
   // function called when submit is clicked. Takes in the city searched and the food that was searched, and appends the search to left aside
   function appendSearch(citySearch, foodSearch) {
     const $newHistoryItem = $historyItem.clone();
@@ -276,7 +230,7 @@ $(document).ready(function () {
 
     history.push(data);
     localStorage.setItem(historyLocalKey, JSON.stringify(history));
-    console.log(localStorage.getItem(historyLocalKey));
+
   }
 
   // Function is called when the search button is clicked, or a historical search is clicked. takes the location requested and runs an ajax request pulling the lat and long of the city. Then calls the weatherSearch function passing along lat and long.
@@ -304,8 +258,6 @@ $(document).ready(function () {
       url: queryURL,
       method: "GET",
     }).then(function (response) {
-      console.log("object below has weather info");
-      console.log(response);
       // updates current info section with relevent data
       $description.text(response.daily[0].weather[0].description);
       let curTemp = Math.round(tempConversion(response.current.temp));
@@ -350,39 +302,19 @@ $(document).ready(function () {
     }
   }
 
-  // called to load search information from title page if exists
-  function loadFromTitlePage() {
-    const params = new URLSearchParams(location.search);
-    const loc = params.get('location')
-    const food = params.get('food')
-    if (loc && food) {
-      callCityIDSearch(loc, food);
-      appendSearch(loc, food);
-      latLongPull(loc);
-    }
-    this.history.replaceState(null, '', location.pathname);
-  }
-
-  function loadStorage() {
-    const localHist = localStorage.getItem(historyLocalKey);
-    const histArr = JSON.parse(localHist);
-
-    if (localHist) {
-      for (let i = 0; i < histArr.length; i++) {
-        const $newHistoryItem = $historyItem.clone();
-        history.push(histArr[i]);
-        $newHistoryItem.text(`${histArr[i].food} in ${histArr[i].city}`);
-        $newHistoryItem.removeAttr("hidden");
-        $newHistoryItem.attr("data-city-id", histArr[i].city);
-        $newHistoryItem.attr("data-food-id", histArr[i].food);
-        $historyList.prepend($newHistoryItem);
-      }
-    }
-  }
-
   // ON __ EVENTS
+  $("#history-list").on("click", function (e) {
+    if (e.target.matches(".history-item")) {
+      cityName = event.target.getAttribute("data-city-id");
+      foodName = event.target.getAttribute("data-food-id");
+
+      callCityIDSearch(cityName, foodName); // call function passing along both variables
+      // latLongPull(cityName);
+    }
+  });
+
   // brings up modal info. clears and updates values with an AJAX request
-  $("#business-venue-modal").on("show.bs.modal", function (event) {
+  $("#business-venue-modal").on("shown.bs.modal", function (event) {
     restID = $(event.relatedTarget).attr("data-index");
     const data = {
       res_id: restID,
@@ -410,7 +342,6 @@ $(document).ready(function () {
       },
       data: data,
     }).then(function (response) {
-      console.log(response);
       let highlights = "";
       response.highlights.forEach((element) => {
         highlights += `${element}, `;
@@ -448,6 +379,7 @@ $(document).ready(function () {
   });
 
   // load this last when page loads
+  checkStorage();
   loadStorage();
   loadFromTitlePage();
   $historyItem.remove();
