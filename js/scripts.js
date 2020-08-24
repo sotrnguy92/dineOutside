@@ -144,7 +144,7 @@ $("#business-venue-modal").on("shown.bs.modal", function (event) {
     "src",
     "https://via.placeholder.com/500x500"
   );
-  $("#venueName").text("");
+  $("#business-venue-name").text("");
   $("#about").text("");
   $("#venueOpening").text("");
   $("#venueAddress").text("");
@@ -172,7 +172,7 @@ $("#business-venue-modal").on("shown.bs.modal", function (event) {
       "src",
       response.featured_image.replace('"', "")
     );
-    $("#venueName").text(response.name);
+    $("#business-venue-name").text(response.name);
     $("#about").text(highlights.slice(0, -2));
     $("#venueOpening").text(response.timings);
     $("#venueAddress").text(response.location.address);
@@ -349,7 +349,7 @@ function uviBackgroundSet(UVI) {
 
 // ON __ EVENTS
 // brings up modal info. clears and updates values with an AJAX request
-$("#business-venue-modal").on("shown.bs.modal", function (event) {
+$("#business-venue-modal").on("show.bs.modal", function (event) {
   restID = $(event.relatedTarget).attr("data-index");
   const data = {
     res_id: restID,

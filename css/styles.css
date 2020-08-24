@@ -206,6 +206,14 @@ li:hover {
     width: 500px;
 }
 
+#business-venue-name {
+    font-size: 34px;
+}
+
+.modal-header{
+    background-color: #ea5455;
+}
+
 @media (max-width: 740px) {
     .venue-image-display {
         width: 100%;
