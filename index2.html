@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- App Icon -->
+    <link rel="icon" href="images/dinnerplate.png" type="image/x-icon" />
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@600&family=Russo+One&family=Zilla+Slab&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css"
+        rel="stylesheet" />
+    <!-- Material Design Bootstrap -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet" />
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/fp-style.css" />
+
+    <title>Dine Outside</title>
+</head>
+
+<body>
+    <div class="main-body d-flex align-items-center justify-content-center flex-column container-fluid">
+        <div class="w-100">
+            <div class="app-name-container d-flex flex-row justify-content-center my-5">
+                <img class="header-pics mr-2" src="images/dinnerplate.png" />
+                <h1 class="header-title">Dine Outside </h1>
+                <img class="header-pics ml-2" src="images/cityscape.png" />
+            </div>
+
+            <form action="index.html" method="GET" class="search-form d-flex flex-column align-items-center">
+                <div class="input-group mb-3 w-75">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1"><img height="20px"
+                                alt="emoji of bowl with steam rising from git" src="images/hotbowl.png" /></span>
+                    </div>
+                    <input type="text" name="food" class="form-control typeOfFood"
+                        placeholder="Type of food or restaurant" aria-label="restaurant"
+                        aria-describedby="basic-addon1">
+                </div>
+                <div class="input-group mb-3 w-75">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon2"><img height="20px" alt="emoji pin"
+                                src="images/pin.png" /></span>
+                    </div>
+                    <input type="text" name="location" class="form-control location rounded"
+                        placeholder="City or ZIP code" aria-label="City Zip" aria-describedby="basic-addon2">
+                    <div class="input-group-append input-group-append d-md-flex d-none">
+                    </div>
+                </div>
+                <p class="required-alert text-warning align-self-start" hidden>* Required</p>
+                <button class="btn btn-md transparent py-0 w-75" type="submit" id="search-button-addon-sm"
+                    height="38px">
+                    <img class="searchButton" alt="magnifying glass emoji" height="30px" src="images/magnifier.png" />
+                </button>
+
+            </form>
+
+            <div class="my-5">
+                <form class="d-flex justify-content-center" action="#">
+                    <table class="d-flex justify-content-center mt-5 search-history-table">
+                        <tbody class="search-history-body w-100">
+                            <tr class="search-history-item d-none justify-content-center mb-2">
+                                <td class="d-flex justify-content-center w-100" data-food="ramen" data-loc="concord">
+                                    test
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js">
+    </script>
+    <!-- moments -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <!-- js -->
+    <script src="js/fp-script.js"></script>
+</body>
+
+</html>
