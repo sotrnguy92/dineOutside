@@ -7,7 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dine Outside</title>
 
-    <link rel="icon" href="images/dinnerplate.png" type="image/x-icon" />
+    <!-- <link rel="icon" href="images/dinnerplate.png" type="image/x-icon" /> -->
+    <link rel="icon" href="images/loading.gif" type="image/gif" />
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" />
@@ -52,7 +53,7 @@
                         <span class="input-group-text" id="basic-addon2"><img height="20px" alt="emoji pin"
                                 src="images/pin.png" /></span>
                     </div>
-                    <input type="text" class="form-control location rounded" placeholder="City or ZIP code"
+                    <input type="text" class="form-control location rounded" placeholder="city name"
                         aria-label="City Zip" aria-describedby="basic-addon2">
                     <div class="input-group-append input-group-append d-md-flex d-none">
                         <button class="btn btn-md m-0 px-3 transparent py-0" type="submit" id="search-button-addon"
@@ -77,13 +78,13 @@
         </header>
 
         <div class="row mx-1 d-flex justify-content-center mainContent">
-            <!-- this is where search history will be saved to localStorage -->
 
+            <!-- this is where search history will be saved to localStorage -->
             <aside class="col-md-3 mb-1 mr-md-3 p-3 searchHistory">
                 <div class="row d-flex justify-content-center">
                     <h2>Search Results:</h2>
                     <ul class="col-12" id="history-list">
-                        <!-- search results will populate here -->
+                        <!-- search results will populate below -->
                         <li class="history-item" data-city-id="concord" data-food-id="ramen" hidden>Ramen in Concord</li>
                     </ul>
                 </div>
@@ -101,7 +102,6 @@
                         </div>
                     </div>
                     <!-- search results will populate here -->
-                    <!-- <div class="col-11 restaurantInfo" data-toggle="modal" data-target="#business-venue-modal" data-index="0"></div> -->
                 </div>
                 <!-- returned restaurants will go here -->
             </section>
@@ -151,10 +151,6 @@
         <!-- this div below closes the container  -->
     </div>
 
-    <!-- Modal button: Disabled for testing -->
-    <a type="button" class="btn btn-primary" data-toggle="modal" data-target="#business-venue-modal">
-        Launch demo modal
-    </a>
     <!-- Modal: Set at the bottom of the page just right before the scripts tag -->
     <div class="modal fade" id="business-venue-modal" tabindex="-1" role="dialog" aria-labelledby="business-venue-label"
         aria-hidden="true">
