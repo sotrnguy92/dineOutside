@@ -38,21 +38,15 @@ $(document).ready(function () {
   // display current local time
   $today.text("TODAY: " + today);
 
-  // retrieve localStorage and populate left column if values are available
-  function checkStorage() {
-    console.log(getCities);
-    if (getCities) {
-      history = getCities;
-      for (let i = 0; i < history.length; i++) {
-        let $city = $("<li>");
-        let cityName = history[i].city;
-        let foodName = history[i].food;
-        $city.text(`${foodName} in ${cityName}`).addClass("history-item");
-        $city.attr("data-city-id", cityName);
-        $city.attr("data-food-id", foodName);
-        $("#history-list").prepend($city);
-      }
-    }
+  // shift item in array to the end (latest)
+  function arrayMoveToEnd(id) {
+    // shift new search up
+    const searchHistory = JSON.parse(localStorage.getItem(historyLocalKey));
+    const target = searchHistory[id];
+    searchHistory.splice(id, 1);
+    searchHistory.push(target);
+
+    localStorage.setItem(historyLocalKey, JSON.stringify(searchHistory));
   }
 
   function callCityIDSearch(city, foodSearch) {
@@ -171,10 +165,13 @@ $(document).ready(function () {
     const params = new URLSearchParams(location.search);
     const loc = params.get('location')
     const food = params.get('food')
-    if (loc && food) {
+    const isSearch = params.get('from_search')
+    if (loc && food && isSearch) {
       callCityIDSearch(loc, food);
-      appendSearch(loc, food);
       latLongPull(loc);
+      if (isSearch === 'true') {
+        appendSearch(loc, food);
+      }
     }
     this.history.replaceState(null, '', location.pathname);
   }
@@ -199,6 +196,7 @@ $(document).ready(function () {
     $newHistoryItem.removeAttr("hidden");
     $newHistoryItem.attr("data-city-id", citySearch);
     $newHistoryItem.attr("data-food-id", foodSearch);
+    $newHistoryItem.attr("data-index", history.length);
     $historyList.prepend($newHistoryItem);
 
     if ($historyList.children().length - 1 >= 10) {
@@ -209,7 +207,7 @@ $(document).ready(function () {
   }
 
   function appendToLocalStorage(data) {
-    
+
     if (history.length >= 10) {
       history.shift();
     }
@@ -289,8 +287,20 @@ $(document).ready(function () {
 
   $("#history-list").on("click", function (e) {
     if (e.target.matches(".history-item")) {
-      cityName = event.target.getAttribute("data-city-id");
-      foodName = event.target.getAttribute("data-food-id");
+      const $item = $(e.target);
+      let cityName = event.target.getAttribute("data-city-id");
+      let foodName = event.target.getAttribute("data-food-id");
+      let id = event.target.getAttribute("data-index");
+
+      $item.addClass('animated bounceOutLeft').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
+        $item.removeClass('bounceOutLeft');
+        $item.remove();
+        $historyList.prepend($item);
+      })
+
+      
+      arrayMoveToEnd(id);
+
 
       callCityIDSearch(cityName, foodName); // call function passing along both variables
       latLongPull(cityName);
