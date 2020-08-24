@@ -1,5 +1,7 @@
 $(document).ready(function () {
   // VARIABLES
+  // image coming soon src
+  const photoComingSoonSrc = 'images/comingsoon.png';
   // image of magnifying glass that you can use as search button
   const $searchForm = $("form");
   // this is a UL element. append $("<li>") search results here
@@ -63,7 +65,7 @@ $(document).ready(function () {
         query: city,
       },
     }).then(function (response) {
-      const city_id = response.location_suggestions[0].entity_id;
+      const city_id = response.location_suggestions[0].city_id;
       //I think we might want to display the city and state as well so that the user can confirm that we are in the right location
       const city_name = response.location_suggestions[0].title;
       callAjaxRestLookup(city_id, foodSearch);
@@ -76,6 +78,7 @@ $(document).ready(function () {
       q: foodSearch,
       entity_type: "city",
       entity_id: cityID,
+      count: 10
     };
 
     $returnedRestaurants.html(""); // clear previous results
@@ -88,10 +91,13 @@ $(document).ready(function () {
       },
       data: data,
     }).then(function (response) {
-      const restLat = response.restaurants[0].restaurant.location.latitude;
-      const restLong = response.restaurants[0].restaurant.location.longitude;
 
       $returnedRestaurants.html(""); // remove spinner
+
+      if (response.restaurants.length < 1){
+        $returnedRestaurants.html("No Results Found");  // display no result
+        return;                                         // end the function
+      }
       // limited to 10 results
       for (let i = 0; i < 10; i++) {
         const restName = response.restaurants[i].restaurant.name;
@@ -178,7 +184,14 @@ $(document).ready(function () {
       if (isSearch === 'true') {
         appendSearch(loc, food);
       }
+    } else {
+      const localHist = JSON.parse(localStorage.getItem(historyLocalKey));
+      const latestSearch = localHist[localHist.length - 1];
+
+      callCityIDSearch(latestSearch.city, latestSearch.food);
+      latLongPull(latestSearch.city);
     }
+
     this.history.replaceState(null, '', location.pathname);
   }
 
@@ -186,16 +199,18 @@ $(document).ready(function () {
     const localHist = JSON.parse(localStorage.getItem(historyLocalKey));
     history.length = 0;
     if (localHist) {
-      console.log(localHist);
-      localHist.forEach(item => {
-        // history.push(item);
-        appendSearch(item.city, item.food);
+
+      localHist.forEach((item, i) => {
+        // Time out set for cascading effect
+        setTimeout(() => {
+          appendSearch(item.city, item.food, true);
+        }, i * 75);
       });
     }
   }
 
   // function called when submit is clicked. Takes in the city searched and the food that was searched, and appends the search to left aside
-  function appendSearch(citySearch, foodSearch) {
+  function appendSearch(citySearch, foodSearch, delay = false) {
     const $newHistoryItem = $historyItem.clone();
 
     $newHistoryItem.text(`${foodSearch} in ${citySearch}`);
@@ -203,6 +218,7 @@ $(document).ready(function () {
     $newHistoryItem.attr("data-city-id", citySearch);
     $newHistoryItem.attr("data-food-id", foodSearch);
     $newHistoryItem.attr("data-index", history.length);
+
     $historyList.prepend($newHistoryItem);
 
     if ($historyList.children().length - 1 >= 10) {
@@ -314,7 +330,7 @@ $(document).ready(function () {
   });
 
   // brings up modal info. clears and updates values with an AJAX request
-  $("#business-venue-modal").on("shown.bs.modal", function (event) {
+  $("#business-venue-modal").on("show.bs.modal", function (event) {
     restID = $(event.relatedTarget).attr("data-index");
     const data = {
       res_id: restID,
@@ -346,12 +362,10 @@ $(document).ready(function () {
       response.highlights.forEach((element) => {
         highlights += `${element}, `;
       });
-
       // update modal values
-      $(".venue-image-display").attr(
-        "src",
-        response.featured_image.replace('"', "")
-      );
+      !response.featured_image? $(".venue-image-display").attr("src", photoComingSoonSrc) :
+      $(".venue-image-display").attr("src",response.featured_image.replace('"', ""))
+
       $("#business-venue-name").text(response.name);
       $("#about").text(highlights.slice(0, -2));
       $("#venueOpening").text(response.timings);
