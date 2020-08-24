@@ -38,6 +38,9 @@ $(document).ready(function () {
   // display current local time
   $today.text("TODAY: " + today);
 
+  // spinner
+  const spinnerLoader = $('.spinner-loader');
+
   // shift item in array to the end (latest)
   function arrayMoveToEnd(id) {
     // shift new search up
@@ -74,6 +77,9 @@ $(document).ready(function () {
       entity_type: "city",
       entity_id: cityID,
     };
+
+    $returnedRestaurants.html(""); // clear previous results
+    $returnedRestaurants.append(spinnerLoader);
     $.ajax({
       url: urlQuerySearch,
       method: "GET",
@@ -85,7 +91,7 @@ $(document).ready(function () {
       const restLat = response.restaurants[0].restaurant.location.latitude;
       const restLong = response.restaurants[0].restaurant.location.longitude;
 
-      $returnedRestaurants.html(""); // clear previous results
+
       // limited to 10 results
       for (let i = 0; i < 10; i++) {
         const restName = response.restaurants[i].restaurant.name;
@@ -109,6 +115,7 @@ $(document).ready(function () {
         newSearchResult
           .find(".restaurantInfo")
           .attr("data-index", response.restaurants[i].restaurant.id);
+        $returnedRestaurants.html(""); // remove spinner
         $returnedRestaurants.append(newSearchResult);
       }
     });
@@ -298,7 +305,7 @@ $(document).ready(function () {
         $historyList.prepend($item);
       })
 
-      
+
       arrayMoveToEnd(id);
 
 
