@@ -31,13 +31,11 @@
 </head>
 
 <body>
+    <div id="dimmer"></div> 
 
     <div class="container-fluid position-relative">
-
-
-
         <header
-            class="row sticky-top mb-4 px-md-3 px-lg-5 d-flex flex-md-row justify-content-between align-items-md-end align-items-sm-center flex-column-reverse">
+            class="row sticky-top px-md-3 px-lg-5 d-flex flex-md-row justify-content-between align-items-md-end align-items-sm-center flex-column-reverse">
             <form action="#" class="row-fluid col-md-6 input-group mb-3 d-flex flex-row justify-content-between">
                 <div class="col-sm-6 input-group">
                     <div class="input-group-prepend">
@@ -94,12 +92,12 @@
                     <div class="spinner-border" role="status">
                         <span class="sr-only">Loading...</span>
                     </div>
-                    <div class="row justify-content-center search-result" hidden>
-                        <div class="col-11 restaurantInfo" data-toggle="modal" data-target="#business-venue-modal"
+                    <div class="row justify-content-center search-result fadeInRight animated" hidden>
+                        <div class="col-11 restaurantInfo" data-toggle="modal"
                             data-index="0">
-                            <p>restaurant name:<span class="resName ml-1"> </span></p>
-                            <p>type of food:<span class="foodType ml-1"> </span></p>
-                            <p>outdoor seating?<span class="outdoor ml-1"></span></p>
+                            <p>Restaurant:<span class="resName ml-1"> </span></p>
+                            <p>Cuisine:<span class="foodType ml-1"> </span></p>
+                            <p>Outdoor seating available?:<span class="outdoor ml-1"></span></p>
                         </div>
                     </div>
                     <!-- search results will populate here -->
@@ -111,12 +109,12 @@
                 <!-- weather conditions will go here -->
                 <div class="row d-flex justify-content-center">
                     <div class="col-sm-11 weather d-flex flex-column align-items-center">
-                        <p class="city"></p>
+                        <p class="today"></p>
+                        <span class="city"></span>
+                        <img alt="current weather emoji" class="icon weather-icon" src="#" />
                         <p class="description"></p>
-                        <p><img alt="current weather emoji" class="icon" src="#" /></p>
                         <p class="temperature"></p>
                         <p class="UVI"></p>
-                        <p class="today"></p>
 
                         <!-- this is the weather column -->
                     </div>
@@ -211,9 +209,6 @@
                     <button type="button" class="btn" data-dismiss="modal">
                         Close
                     </button>
-                    <!-- <button type="button" class="btn btn-primary">
-              Save changes
-            </button> -->
                 </div>
             </div>
         </div>

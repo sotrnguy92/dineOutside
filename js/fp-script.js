@@ -6,8 +6,20 @@ $(document).ready(function () {
     const $historyItem = $('.search-history-item');
     const $historyBody = $('.search-history-body');
 
-    function isStrValid(str){
+    function isStrValid(str) {
         return !/[~`!#$%\^&*+=\-\(\)\[\]\\';,/{}|\\":<>\?]/g.test(str);
+    }
+
+    function clearInputFields() {
+        console.log("hello")
+        $('.typeOfFood')[0].value = '';
+        $('.location')[0].value = '';
+    }
+
+    function upperCaseFirstCharacter(string){
+
+        return string.charAt(0).toUpperCase() + string.slice(1);
+
     }
 
     function loadSavedSearchesFromLocalStorage() {
@@ -29,7 +41,7 @@ $(document).ready(function () {
             newHistory.addClass('d-flex');
             newHistory.removeClass('d-none');
             const td = newHistory.find('td');
-            td.text(`${item.food} in ${item.city}`);
+            td.text(`${upperCaseFirstCharacter(item.food)} in ${upperCaseFirstCharacter(item.city)}`);
             td.attr('data-food', item.food);
             td.attr('data-loc', item.city);
             td.attr('data-index', i);
@@ -37,7 +49,7 @@ $(document).ready(function () {
         });
     }
 
-    function arrayMoveToEnd(id){
+    function arrayMoveToEnd(id) {
         // shift new search up
         const searchHistory = JSON.parse(localStorage.getItem(historyLocalKey));
         const target = searchHistory[id];
@@ -47,7 +59,7 @@ $(document).ready(function () {
         localStorage.setItem(historyLocalKey, JSON.stringify(searchHistory));
     }
 
-    function shakeElement(element){
+    function shakeElement(element) {
         $(element).addClass('animated heartBeat fast').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
             $(this).removeClass('animated heartBeat fast');
         });
@@ -66,10 +78,11 @@ $(document).ready(function () {
         if (!$foodInput || !$locInput) {
             $requiredAlert.removeAttr('hidden');
             shakeElement(event.target);
-        } else if (!isStrValid($foodInput) || !isStrValid($locInput)){    
+        } else if (!isStrValid($foodInput) || !isStrValid($locInput)) {
             $invalidAlert.removeAttr('hidden');
             shakeElement(event.target);
-        }else {
+            clearInputFields();
+        } else {
             event.target.submit();
         }
 
@@ -94,4 +107,5 @@ $(document).ready(function () {
     });
 
     renderHistoryToPage(loadSavedSearchesFromLocalStorage());
+    clearInputFields();
 });
