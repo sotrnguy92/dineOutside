@@ -14,7 +14,7 @@ $(document).ready(function () {
   const $description = $(".description");
   const $temperature = $(".temperature");
   // zomato API
-  const zomatoAPIKey = "beddad251d06b8803b32610b0bf44218";
+  const zomatoAPIKey = "d1c0014022c8d5ba7d0998b77f3f9cb7";
   // weather widget API key
   const weatherAPIKey = "78d4820b52a05a5e039fd595437c5ac0";
   // URLs for Zomato AJAX requests
