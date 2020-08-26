@@ -18,7 +18,7 @@ h2 {
 
 /* header items */
 header {
-  background-color: #EF2729;
+  background-color: #FA4D4F;
   padding-top: 50px;
 }
 
@@ -133,7 +133,7 @@ li:hover {
 .resName {
     font-size: 20px;
     font-family: 'Kanit', sans-serif;
-    color: #EF2729;
+    color: #FA4D4F;
 }
 
 /* right column */
@@ -222,7 +222,7 @@ li:hover {
 }
 
 .modal-header{
-    background-color: #EF2729;
+    background-color: #FA4D4F;
     font-family: 'Kanit', sans-serif;
 }
 
@@ -232,7 +232,7 @@ li:hover {
 }
 
 .btn {
-    background-color: #EF2729;
+    background-color: #FA4D4F;
     color: white;
 }
 
