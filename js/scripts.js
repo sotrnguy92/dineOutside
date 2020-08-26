@@ -83,7 +83,8 @@ $(document).ready(function () {
       //I think we might want to display the city and state as well so that the user can confirm that we are in the right location
       const city_name = response.location_suggestions[0].title;
       callAjaxRestLookup(city_id, foodSearch);
-    }).fail(function () {
+    }).fail(function (response) {
+      console.log(response)
       $returnedRestaurants.html("No Results Found");  // display no result
       return;                                         // end the function
     });
@@ -400,7 +401,7 @@ $(document).ready(function () {
   // brings up modal info. clears and updates values with an AJAX request
   $(".returnedRestaurants").on("click", function (event) {
     restID = $(event.target).closest('.restaurantInfo').attr('data-index');
-    if (!restID){
+    if (!restID) {
       return;
     }
     // clear modal values
@@ -418,10 +419,26 @@ $(document).ready(function () {
     $("#venueReviews").text("");
     $("#restaurantLink").attr("href", "#");
 
+    $.ajax({
+      url: urlRestSearch,
+      method: "GET",
+      headers: {
+        "user-key": zomatoAPIKey,
+      },
+      data: data,
+    }).then(function (response) {
+      let highlights = "";
+      response.highlights.forEach((element) => {
+        highlights += `${element}, `;
+      });
+      // update modal values
+      !response.featured_image ? $(".venue-image-display").attr("src", photoComingSoonSrc) :
+        $(".venue-image-display").attr("src", response.featured_image.replace('"', ""))
 
-    callAjaxRestInfo(restID);
+      callAjaxRestInfo(restID);
 
-  });
+    });
+  })
 
   // on clicking the submit button, saves the searched values and calls a variety of functions with those variables.
   $searchForm.on("submit", function (event) {
