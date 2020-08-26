@@ -11,7 +11,6 @@ $(document).ready(function () {
     }
 
     function clearInputFields() {
-        console.log("hello")
         $('.typeOfFood')[0].value = '';
         $('.location')[0].value = '';
     }
