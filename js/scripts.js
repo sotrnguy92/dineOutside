@@ -12,9 +12,8 @@ $(document).ready(function () {
   const $location = $(".location");
   // place weather values in here
   const $description = $(".description");
+  const $icon = $(".icon");
   const $temperature = $(".temperature");
-  // zomato API
-  const zomatoAPIKey = "beddad251d06b8803b32610b0bf44218";
   // weather widget API key
   const weatherAPIKey = "78d4820b52a05a5e039fd595437c5ac0";
   // URLs for Zomato AJAX requests
@@ -34,6 +33,7 @@ $(document).ready(function () {
 
   const history = [];
   const historyLocalKey = "dine-outside-history";
+  const getCities = JSON.parse(localStorage.getItem(historyLocalKey));
 
   let today = moment().format("ddd, MMM DD, YYYY");
 
@@ -46,15 +46,6 @@ $(document).ready(function () {
   // Test string for validity, add more characters between !/ and /g to restrict more characters
   function isStrValid(str) {
     return !/[~`!#$%\^&*+=\-\(\)\[\]\\';,/{}|\\":<>\?]/g.test(str);
-  }
-
-  function upperCaseFirstCharacter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
-
-  function dim(bool) {
-    if (typeof bool == 'undefined') bool = true; // so you can shorten dim(true) to dim()
-    bool ? $('#dimmer').fadeIn(400) : $('#dimmer').fadeOut(400)
   }
 
   // shift item in array to the end (latest)
@@ -73,7 +64,7 @@ $(document).ready(function () {
       url: urlLocationSearch,
       method: "GET",
       headers: {
-        "user-key": zomatoAPIKey,
+        "user-key": "d1c0014022c8d5ba7d0998b77f3f9cb7",
       },
       data: {
         query: city,
@@ -99,24 +90,13 @@ $(document).ready(function () {
       count: 10
     };
 
-
-    if (!$($returnedRestaurants.children()[0]).hasClass('spinner-loader')) {
-      for (let i = 0; i < $returnedRestaurants.children().length; i++) {
-        const target = $($returnedRestaurants.children()[i]);
-        target.removeClass('fadeInRight');
-        target.addClass('fadeOutDown animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
-          $(target).removeClass('fadeOutDown');
-          $(target).remove();
-        });
-      }
-    }
+    $returnedRestaurants.html(""); // clear previous results
     $returnedRestaurants.append(spinnerLoader);
-
     $.ajax({
       url: urlQuerySearch,
       method: "GET",
       headers: {
-        "user-key": zomatoAPIKey,
+        "user-key": "d1c0014022c8d5ba7d0998b77f3f9cb7",
       },
       data: data,
     }).then(function (response) {
@@ -136,62 +116,22 @@ $(document).ready(function () {
               "Outdoor Seating"
             ) === true
           ) {
-            return "Yes";
+            return "yes";
           } else {
-            return "No";
+            return "no";
           }
         };
         // clones result layout and make it visible then fill in the necessary details then append it to .returnedRestaurant class element
         const newSearchResult = $searchResult.clone();
         newSearchResult.removeAttr("hidden").addClass("d-flex");
         newSearchResult.children().find(".resName").text(restName);
-        newSearchResult.children().find(".foodType").text(response.restaurants[i].restaurant.cuisines);
+        newSearchResult.children().find(".foodType").text(foodSearch);
         newSearchResult.children().find(".outdoor").text(outdoorSeating());
         newSearchResult
           .find(".restaurantInfo")
           .attr("data-index", response.restaurants[i].restaurant.id);
         $returnedRestaurants.append(newSearchResult);
       }
-    });
-  }
-
-  function callAjaxRestInfo(restID) {
-
-    dim(true);
-    const data = {
-      res_id: restID,
-    };
-
-    $.ajax({
-      url: urlRestSearch,
-      method: "GET",
-      headers: {
-        "user-key": zomatoAPIKey,
-      },
-      data: data,
-    }).then(function (response) {
-      let highlights = "";
-      response.highlights.forEach((element) => {
-        highlights += `${element}, `;
-      });
-      // update modal values
-      !response.featured_image ? $(".venue-image-display").attr("src", photoComingSoonSrc) :
-        $(".venue-image-display").attr("src", response.featured_image.replace('"', ""))
-
-      $("#business-venue-name").text(response.name);
-      $("#about").text(highlights.slice(0, -2));
-      $("#venueOpening").text(response.timings);
-      $("#venueAddress").text(response.location.address);
-      $("#venueContactInfo").text(response.phone_numbers);
-      $("#venueCuisine").text(response.cuisines);
-      $("#venueDelivery").text(response.is_delivering_now ? "Yes" : "No");
-      $("#venueReviews").text(response.user_rating.rating_text);
-      $("#venueReviews").css('color', '#' + response.user_rating.rating_color);
-      $("#restaurantLink").attr("href", response.url);
-      $('#business-venue-modal').modal('show');
-      dim(false);
-    }).fail(function (response) {
-      dim(false);
     });
   }
 
@@ -279,10 +219,10 @@ $(document).ready(function () {
   }
 
   // function called when submit is clicked. Takes in the city searched and the food that was searched, and appends the search to left aside
-  function appendSearch(citySearch, foodSearch) {
+  function appendSearch(citySearch, foodSearch, delay = false) {
     const $newHistoryItem = $historyItem.clone();
 
-    $newHistoryItem.text(`${upperCaseFirstCharacter(foodSearch)} in ${upperCaseFirstCharacter(citySearch)}`);
+    $newHistoryItem.text(`${foodSearch} in ${citySearch}`);
     $newHistoryItem.removeAttr("hidden");
     $newHistoryItem.attr("data-city-id", citySearch);
     $newHistoryItem.attr("data-food-id", foodSearch);
@@ -333,7 +273,7 @@ $(document).ready(function () {
       method: "GET",
     }).then(function (response) {
       // updates current info section with relevent data
-      $description.text(upperCaseFirstCharacter(response.daily[0].weather[0].description));
+      $description.text(response.daily[0].weather[0].description);
       let curTemp = Math.round(tempConversion(response.current.temp));
       $temperature.text(curTemp + "ºF");
       // converts windspeed from m/s to mph
@@ -464,5 +404,4 @@ $(document).ready(function () {
   loadStorage();
   loadFromTitlePage();
   $historyItem.remove();
-
 });
