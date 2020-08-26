@@ -64,7 +64,7 @@ $(document).ready(function () {
       url: urlLocationSearch,
       method: "GET",
       headers: {
-        "user-key": "beddad251d06b8803b32610b0bf44218",
+        "user-key": "d1c0014022c8d5ba7d0998b77f3f9cb7",
       },
       data: {
         query: city,
@@ -95,7 +95,7 @@ $(document).ready(function () {
       url: urlQuerySearch,
       method: "GET",
       headers: {
-        "user-key": "beddad251d06b8803b32610b0bf44218",
+        "user-key": "d1c0014022c8d5ba7d0998b77f3f9cb7",
       },
       data: data,
     }).then(function (response) {
@@ -362,7 +362,7 @@ $(document).ready(function () {
       url: urlRestSearch,
       method: "GET",
       headers: {
-        "user-key": "beddad251d06b8803b32610b0bf44218",
+        "user-key": "d1c0014022c8d5ba7d0998b77f3f9cb7",
       },
       data: data,
     }).then(function (response) {
